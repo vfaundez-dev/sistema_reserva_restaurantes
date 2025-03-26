@@ -20,7 +20,7 @@ class CustomerController extends Controller {
 
     public function store(StoreCustomerRequest $request) {
         $newCustomer = Customer::create( $request->validated() );
-        return new CustomerResource($newCustomer->fresh());
+        return new CustomerResource( $newCustomer->fresh() );
     }
 
     public function show(string $id) {
@@ -29,8 +29,11 @@ class CustomerController extends Controller {
         return new CustomerResource($customer);
     }
 
-    public function update(UpdateCustomerRequest $request, Customer $customer) {
-        //
+    public function update(UpdateCustomerRequest $request, string $id) {
+        $customer = Customer::find($id);
+        if (!$customer) return response()->json(['message' => 'Customer not found'], 404);
+        $customer->update( $request->validated() );
+        return new CustomerResource( $customer->fresh() );
     }
 
     public function destroy(Customer $customer) {
