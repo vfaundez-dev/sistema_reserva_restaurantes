@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
-use App\Models\Reservation;
-use App\Http\Requests\StoreReservationRequest;
-use App\Http\Requests\UpdateReservationRequest;
+use App\Models\Table;
+use App\Http\Requests\StoreTableRequest;
+use App\Http\Requests\UpdateTableRequest;
+use App\Http\Controllers\Controller;
 
-class ReservationController extends Controller
+class TableController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReservationRequest $request)
+    public function store(StoreTableRequest $request)
     {
         //
     }
@@ -27,7 +28,7 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Reservation $reservation)
+    public function show(Table $table)
     {
         //
     }
@@ -35,7 +36,7 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateReservationRequest $request, Reservation $reservation)
+    public function update(UpdateTableRequest $request, Table $table)
     {
         //
     }
@@ -43,7 +44,7 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reservation $reservation)
+    public function destroy(Table $table)
     {
         //
     }

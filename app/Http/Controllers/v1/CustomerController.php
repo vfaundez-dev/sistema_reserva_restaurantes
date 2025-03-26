@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
-use App\Models\Table;
-use App\Http\Requests\StoreTableRequest;
-use App\Http\Requests\UpdateTableRequest;
+use App\Models\Customer;
+use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
+use App\Http\Controllers\Controller;
 
-class TableController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class TableController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTableRequest $request)
+    public function store(StoreCustomerRequest $request)
     {
         //
     }
@@ -27,7 +28,7 @@ class TableController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Table $table)
+    public function show(Customer $customer)
     {
         //
     }
@@ -35,7 +36,7 @@ class TableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTableRequest $request, Table $table)
+    public function update(UpdateCustomerRequest $request, Customer $customer)
     {
         //
     }
@@ -43,7 +44,7 @@ class TableController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Table $table)
+    public function destroy(Customer $customer)
     {
         //
     }
