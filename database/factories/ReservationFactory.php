@@ -4,20 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Reservation>
- */
-class ReservationFactory extends Factory
-{
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
+class ReservationFactory extends Factory {
+    
+    public function definition(): array {
         return [
-            //
+            'reservation_date' => $this->faker->dateTimeBetween(now(), '+1 month'),
+            'status' => $this->faker->randomElement(['pending', 'confirmed', 'canceled']),
+            'notes' => $this->faker->text(),
+            'customer_id' => Customer::inRandomOrder()->first()->id,
+            'table_id' => Table::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

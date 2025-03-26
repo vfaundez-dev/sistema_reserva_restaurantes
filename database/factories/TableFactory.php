@@ -2,22 +2,18 @@
 
 namespace Database\Factories;
 
+use App\Models\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Table>
- */
-class TableFactory extends Factory
-{
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
+class TableFactory extends Factory {
+    
+    public function definition(): array {
+        $lastTableNumber = Table::max('table_number') ?? 0;
+
         return [
-            //
+            'table_number' => $lastTableNumber + 1,
+            'capacity' => $this->faker->numberBetween(4, 8),
+            'location' => $this->faker->randomElement(['indoor', 'outdoor']),
         ];
     }
 }
