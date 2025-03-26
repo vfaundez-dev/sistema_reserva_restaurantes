@@ -14,15 +14,17 @@ class StoreCustomerRequest extends FormRequest {
         return [
             'name' => ['required', 'string', 'min:3'],
             'email' => ['required', 'email', 'unique:customers,email'],
-            'phone' => ['nullable','string', 'min:8'],
-            'registration_date' => ['date', 'after_or_equal:today']
+            'phone' => ['required','string', 'min:8'],
+            'registration_date' => ['sometimes', 'date', 'after_or_equal:today']
         ];
     }
 
     protected function prepareForValidation() {
-        $this->merge([
-            'registration_date' => $this->registrationDate // Mapeamos a nombre de columna DB
-        ]);
+        if ($this->has('registrationDate')) {
+            $this->merge([
+                'registration_date' => $this->input('registrationDate')
+            ]);
+        }
     }
 
     public function attributes(): array {
@@ -30,5 +32,5 @@ class StoreCustomerRequest extends FormRequest {
             'registration_date' => 'registrationDate'
         ];
     }
-    
+
 }
