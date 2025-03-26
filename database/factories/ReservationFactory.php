@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
+use App\Models\Table;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ReservationFactory extends Factory {
