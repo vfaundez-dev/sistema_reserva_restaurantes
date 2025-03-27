@@ -6,46 +6,31 @@ use App\Models\Table;
 use App\Http\Requests\StoreTableRequest;
 use App\Http\Requests\UpdateTableRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TableCollection;
+use App\Http\Resources\TableResource;
 
-class TableController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+class TableController extends Controller {
+    
+    public function index() {
+        $tables = Table::all();
+        return new TableCollection($tables);
+    }
+
+    public function store(StoreTableRequest $request) {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreTableRequest $request)
-    {
+    public function show(string $id) {
+        $table = Table::find($id);
+        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+        return new TableResource($table);
+    }
+
+    public function update(UpdateTableRequest $request, string $id) {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Table $table)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTableRequest $request, Table $table)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Table $table)
-    {
+    public function destroy(string $id) {
         //
     }
 }
