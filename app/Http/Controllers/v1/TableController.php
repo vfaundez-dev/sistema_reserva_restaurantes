@@ -17,7 +17,8 @@ class TableController extends Controller {
     }
 
     public function store(StoreTableRequest $request) {
-        //
+        $newTable = Table::create( $request->validated() );
+        return new TableResource( $newTable->fresh() );
     }
 
     public function show(string $id) {
@@ -27,7 +28,10 @@ class TableController extends Controller {
     }
 
     public function update(UpdateTableRequest $request, string $id) {
-        //
+        $table = Table::find($id);
+        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+        $table->update( $request->validated() );
+        return new TableResource( $table->fresh() );
     }
 
     public function destroy(string $id) {

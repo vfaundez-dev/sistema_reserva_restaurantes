@@ -12,7 +12,7 @@ class TableFactory extends Factory {
 
         return [
             'table_number' => $lastTableNumber + 1,
-            'capacity' => $this->faker->numberBetween(4, 8),
+            'capacity' => $this->faker->numberBetween(2, 8),
             'location' => $this->faker->randomElement(['indoor', 'outdoor']),
         ];
     }
