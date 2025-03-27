@@ -8,12 +8,10 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Response;
 
 class CustomerController extends Controller {
     
-    public function index(): CustomerCollection {
+    public function index() {
         $customers = Customer::all();
         return new CustomerCollection($customers);
     }
@@ -36,7 +34,10 @@ class CustomerController extends Controller {
         return new CustomerResource( $customer->fresh() );
     }
 
-    public function destroy(Customer $customer) {
-        //
+    public function destroy(string $id) {
+        $customer = Customer::find($id);
+        if (!$customer) return response()->json(['message' => 'Customer not found'], 404);
+        $customer->delete();
+        return response()->json(['message' => 'Customer deleted'], 200);
     }
 }
