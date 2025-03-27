@@ -35,6 +35,9 @@ class TableController extends Controller {
     }
 
     public function destroy(string $id) {
-        //
+        $table = Table::find($id);
+        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+        $table->delete();
+        return response()->json(['message' => 'Table deleted'], 200);
     }
 }
