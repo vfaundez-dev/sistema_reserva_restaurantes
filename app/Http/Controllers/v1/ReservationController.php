@@ -6,46 +6,32 @@ use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ReservationCollection;
+use App\Http\Resources\ReservationResource;
 
-class ReservationController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+class ReservationController extends Controller {
+    
+    public function index() {
+        $reservations = Reservation::all();
+        return new ReservationCollection($reservations);
+    }
+
+    public function store(StoreReservationRequest $request) {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReservationRequest $request)
-    {
+    public function show(string $id) {
+        $reservation = Reservation::find($id);
+        if (!$reservation) return response()->json(['message' => 'Reservation not found'], 404);
+        return new ReservationResource($reservation);
+    }
+
+    public function update(UpdateReservationRequest $request, Reservation $reservation) {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reservation $reservation)
-    {
+    public function destroy(Reservation $reservation) {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReservationRequest $request, Reservation $reservation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Reservation $reservation)
-    {
-        //
-    }
 }
