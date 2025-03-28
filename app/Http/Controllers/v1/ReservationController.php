@@ -17,7 +17,8 @@ class ReservationController extends Controller {
     }
 
     public function store(StoreReservationRequest $request) {
-        //
+        $newReservation = Reservation::create( $request->validated() );
+        return new ReservationResource( $newReservation->fresh() );
     }
 
     public function show(string $id) {
@@ -26,11 +27,14 @@ class ReservationController extends Controller {
         return new ReservationResource($reservation);
     }
 
-    public function update(UpdateReservationRequest $request, Reservation $reservation) {
-        //
+    public function update(UpdateReservationRequest $request, string $id) {
+        $reservation = Reservation::find($id);
+        if (!$reservation) return response()->json(['message' => 'Reservation not found'], 404);
+        $reservation->update( $request->validated() );
+        return new ReservationResource( $reservation->fresh() );
     }
 
-    public function destroy(Reservation $reservation) {
+    public function destroy(string $id) {
         //
     }
 

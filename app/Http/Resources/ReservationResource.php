@@ -10,7 +10,7 @@ class ReservationResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'id' => $this->id,
-            'reservationDate' => $this->reservation_date,
+            'reservationDate' => $this->reservation_date->format('Y-m-d H:i:s'),
             'status' => $this->status,
             'notes' => $this->notes,
             'createdAt' => $this->created_at->format('Y-m-d H:i:s'),
