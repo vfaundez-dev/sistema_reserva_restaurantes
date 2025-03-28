@@ -47,8 +47,6 @@ class TableController extends Controller {
     }
     
     public function isAvailable(string $id) {
-        $table = Table::find($id);
-        if (!$table) return response()->json(['message' => 'Table not found'], 404);
-        return $table->is_available;
+        return Table::find($id)->is_available;
     }
 }

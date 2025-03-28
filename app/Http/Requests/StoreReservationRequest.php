@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreReservationRequest extends FormRequest {
     
@@ -17,7 +18,11 @@ class StoreReservationRequest extends FormRequest {
             'status' => ['sometimes', 'string', 'in:pending,confirmed,cancelled'],
             'notes' => ['required', 'string', 'max:255'],
             'customer_id' => ['required', 'exists:customers,id'],
-            'table_id' => ['required', 'exists:tables,id'],
+            'table_id' => ['required', 'exists:tables,id',
+                Rule::exists('tables', 'id')->where(function ($query) {
+                    $query->where('is_available', true);
+                })
+            ],
             'user_id' => ['required', 'exists:users,id'],
         ];
     }
@@ -37,6 +42,12 @@ class StoreReservationRequest extends FormRequest {
             'customer_id' => 'customer',
             'table_id' => 'table',
             'user_id' => 'owner',
+        ];
+    }
+
+    public function messages() {
+        return [
+            'table_id.exists' => 'The selected table is not available.',
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateReservationRequest extends FormRequest {
     
@@ -16,7 +17,11 @@ class UpdateReservationRequest extends FormRequest {
             'status' => ['sometimes', 'string', 'in:pending,confirmed,cancelled'],
             'notes' => ['sometimes', 'required', 'string', 'max:255'],
             'customer_id' => ['sometimes', 'required', 'exists:customers,id'],
-            'table_id' => ['sometimes', 'required', 'exists:tables,id'],
+            'table_id' => ['sometimes', 'required', 'exists:tables,id',
+                Rule::exists('tables', 'id')->where(function ($query) {
+                    $query->where('is_available', true);
+                })
+            ],
             'user_id' => ['sometimes', 'required', 'exists:users,id'],
         ];
     }
@@ -42,4 +47,11 @@ class UpdateReservationRequest extends FormRequest {
             'user_id' => 'owner',
         ];
     }
+
+    public function messages() {
+        return [
+            'table_id.exists' => 'The selected table is not available.',
+        ];
+    }
+    
 }
