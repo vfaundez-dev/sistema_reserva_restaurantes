@@ -36,6 +36,10 @@ class UserController extends Controller {
     }
 
     public function destroy(string $id) {
-        //
+        $user = User::find($id);
+        if(!$user) return response()->json(['message' => 'User not found'], 404);
+        if($user->id === 1) return response()->json(['message' => 'Not authorized to delete Admin user'], 401);
+        $user->delete();
+        return response()->json(['message' => 'User deleted'], 200);
     }
 }
