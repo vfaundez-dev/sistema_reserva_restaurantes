@@ -40,4 +40,15 @@ class TableController extends Controller {
         $table->delete();
         return response()->json(['message' => 'Table deleted'], 200);
     }
+
+    public function getAvailableTables() {
+        $availableTables = Table::where('is_available', true)->get();
+        return new TableCollection($availableTables);
+    }
+    
+    public function isAvailable(string $id) {
+        $table = Table::find($id);
+        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+        return $table->is_available;
+    }
 }

@@ -10,6 +10,7 @@ class TableResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'tableNumber' => $this->table_number,
+            'isAvailable' => $this->is_available,
             'capacity' => $this->capacity,
             'location' => $this->location,
             'createdAt' => $this->created_at->format('Y-m-d H:i:s'),

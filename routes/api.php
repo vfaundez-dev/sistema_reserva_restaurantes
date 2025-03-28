@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group( function () {
 
     Route::apiResource('customers', CustomerController::class);
+    Route::get('tables/availables', [TableController::class, 'getAvailableTables'])->name('tables.availables');
     Route::apiResource('tables', TableController::class);
     Route::apiResource('reservations', ReservationController::class);
 

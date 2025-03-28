@@ -13,10 +13,10 @@ class TableSeeder extends Seeder {
         
         for ($i = 1; $i <= $numberOfTables; $i++) {
             Table::updateOrCreate(
-                ['table_number' => $i], // Buscar por table_number
+                ['table_number' => $i],
                 [
-                    'capacity' => rand(4, 8), // Capacidad aleatoria
-                    'location' => $i <= 6 ? 'indoor' : 'outdoor', // Ubicación basada en el índice
+                    'capacity' => rand(4, 8),
+                    'location' => $i <= 6 ? 'indoor' : 'outdoor',
                 ]
             );
         }
