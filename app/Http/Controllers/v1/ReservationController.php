@@ -35,7 +35,10 @@ class ReservationController extends Controller {
     }
 
     public function destroy(string $id) {
-        //
+        $reservation = Reservation::find($id);
+        if (!$reservation) return response()->json(['message' => 'Reservation not found'], 404);
+        $reservation->delete();
+        return response()->json(['message' => 'Reservation deleted'], 200);
     }
 
 }
