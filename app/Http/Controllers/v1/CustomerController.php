@@ -8,6 +8,9 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CustomerController extends Controller {
     
@@ -21,22 +24,16 @@ class CustomerController extends Controller {
         return new CustomerResource( $newCustomer->fresh() );
     }
 
-    public function show(string $id) {
-        $customer = Customer::find($id);
-        if (!$customer) return response()->json(['message' => 'Customer not found'], 404);
+    public function show(Customer $customer) {
         return new CustomerResource($customer);
     }
 
-    public function update(UpdateCustomerRequest $request, string $id) {
-        $customer = Customer::find($id);
-        if (!$customer) return response()->json(['message' => 'Customer not found'], 404);
+    public function update(UpdateCustomerRequest $request, Customer $customer) {
         $customer->update( $request->validated() );
         return new CustomerResource( $customer->fresh() );
     }
 
-    public function destroy(string $id) {
-        $customer = Customer::find($id);
-        if (!$customer) return response()->json(['message' => 'Customer not found'], 404);
+    public function destroy(Customer $customer) {
         $customer->delete();
         return response()->json(['message' => 'Customer deleted'], 200);
     }

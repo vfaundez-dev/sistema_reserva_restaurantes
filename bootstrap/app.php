@@ -4,6 +4,10 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -15,5 +19,28 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            if ($request->wantsJson() || $request->is('api/*')) {
+                $previous = $e->getPrevious();
+                
+                // Caso 1: Error causado por ModelNotFoundException (findOrFail)
+                if ($previous instanceof ModelNotFoundException) {
+                    $modelName = class_basename($previous->getModel());
+                    return response()->json([
+                        'success' => false,
+                        'message' => "$modelName not found",
+                        'data' => null
+                    ], 404);
+                }
+                
+                // Caso 2: Error de endpoint no encontrado
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Endpoint not found',
+                    'data' => null
+                ], 404);
+            }
+        });
+
     })->create();
