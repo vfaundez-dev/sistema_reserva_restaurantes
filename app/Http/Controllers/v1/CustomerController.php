@@ -8,30 +8,34 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
+use App\Repositories\Interfaces\CustomerRepositoryInterfaces;
 
 class CustomerController extends Controller {
+
+    protected CustomerRepositoryInterfaces $customerRepository;
+
+    public function __construct(CustomerRepositoryInterfaces $customerRepository)  {
+        $this->customerRepository = $customerRepository;
+    }
     
     public function index() {
-        $customers = Customer::all();
-        return new CustomerCollection($customers);
+        return $this->customerRepository->getAll();
     }
 
     public function store(StoreCustomerRequest $request) {
-        $newCustomer = Customer::create( $request->validated() );
-        return new CustomerResource( $newCustomer->fresh() );
+        return $this->customerRepository->store( $request->validated() );
     }
 
     public function show(Customer $customer) {
-        return new CustomerResource($customer);
+        return $this->customerRepository->getById($customer);
     }
 
     public function update(UpdateCustomerRequest $request, Customer $customer) {
-        $customer->update( $request->validated() );
-        return new CustomerResource( $customer->fresh() );
+        return $this->customerRepository->update( $request->validated(), $customer );
     }
 
     public function destroy(Customer $customer) {
-        $customer->delete();
+        $this->customerRepository->destroy($customer);
         return response()->json(['message' => 'Customer deleted'], 200);
     }
 }

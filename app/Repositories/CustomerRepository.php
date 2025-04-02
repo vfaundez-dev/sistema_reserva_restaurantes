@@ -36,7 +36,7 @@ class CustomerRepository implements CustomerRepositoryInterfaces {
   }
 
   public function exist(Customer $customer): bool {
-    return Customer::where('id', $customer)->exists();
+    return Customer::where('id', $customer->id)->exists();
   }
 
 }
