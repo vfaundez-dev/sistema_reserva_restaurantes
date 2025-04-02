@@ -21,22 +21,16 @@ class TableController extends Controller {
         return new TableResource( $newTable->fresh() );
     }
 
-    public function show(string $id) {
-        $table = Table::find($id);
-        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+    public function show(Table $table) {
         return new TableResource($table);
     }
 
-    public function update(UpdateTableRequest $request, string $id) {
-        $table = Table::find($id);
-        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+    public function update(UpdateTableRequest $request, Table $table) {
         $table->update( $request->validated() );
         return new TableResource( $table->fresh() );
     }
 
-    public function destroy(string $id) {
-        $table = Table::find($id);
-        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+    public function destroy(Table $table) {
         $table->delete();
         return response()->json(['message' => 'Table deleted'], 200);
     }
@@ -46,13 +40,11 @@ class TableController extends Controller {
         return new TableCollection($availableTables);
     }
     
-    public function isAvailable(string $id) {
-        return Table::find($id)->is_available;
+    public function isAvailable(Table $table) {
+        return $table->is_available;
     }
 
-    public function release(string $id) {
-        $table = Table::find($id);
-        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+    public function release(Table $table) {
         // Validations
         if ($table->is_available) return response()->json(['message' => 'Table already released'], 200);
         if ( $table->reservations()->whereIn('status', ['pending', 'confirmed'])->exists() )
@@ -62,9 +54,7 @@ class TableController extends Controller {
         return response()->json(['message' => 'Released table'], 200);
     }
 
-    public function occupied(string $id) {
-        $table = Table::find($id);
-        if (!$table) return response()->json(['message' => 'Table not found'], 404);
+    public function occupied(Table $table) {
         // Validations
         if (!$table->is_available) return response()->json(['message' => 'Table already available'], 200);
 

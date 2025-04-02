@@ -24,7 +24,6 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->wantsJson() || $request->is('api/*')) {
                 $previous = $e->getPrevious();
                 
-                // Caso 1: Error causado por ModelNotFoundException (findOrFail)
                 if ($previous instanceof ModelNotFoundException) {
                     $modelName = class_basename($previous->getModel());
                     return response()->json([
@@ -34,7 +33,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     ], 404);
                 }
                 
-                // Caso 2: Error de endpoint no encontrado
                 return response()->json([
                     'success' => false,
                     'message' => 'Endpoint not found',

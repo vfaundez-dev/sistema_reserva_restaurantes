@@ -21,22 +21,16 @@ class ReservationController extends Controller {
         return new ReservationResource( $newReservation->fresh() );
     }
 
-    public function show(string $id) {
-        $reservation = Reservation::find($id);
-        if (!$reservation) return response()->json(['message' => 'Reservation not found'], 404);
+    public function show(Reservation $reservation) {
         return new ReservationResource($reservation);
     }
 
-    public function update(UpdateReservationRequest $request, string $id) {
-        $reservation = Reservation::find($id);
-        if (!$reservation) return response()->json(['message' => 'Reservation not found'], 404);
+    public function update(UpdateReservationRequest $request, Reservation $reservation) {
         $reservation->update( $request->validated() );
         return new ReservationResource( $reservation->fresh() );
     }
 
-    public function destroy(string $id) {
-        $reservation = Reservation::find($id);
-        if (!$reservation) return response()->json(['message' => 'Reservation not found'], 404);
+    public function destroy(Reservation $reservation) {
         $reservation->delete();
         return response()->json(['message' => 'Reservation deleted'], 200);
     }
