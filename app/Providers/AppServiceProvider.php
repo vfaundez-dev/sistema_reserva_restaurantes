@@ -10,7 +10,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        \App\Providers\RepositoryServiceProvider::class;
+        RepositoryServiceProvider::class;
     }
 
     /**
