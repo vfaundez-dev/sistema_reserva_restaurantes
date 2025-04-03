@@ -8,58 +8,94 @@ use App\Http\Requests\UpdateTableRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TableCollection;
 use App\Http\Resources\TableResource;
+use App\Http\Responses\ApiResponse;
+use App\Repositories\Interfaces\TableRepositoryInterface;
+use Throwable;
 
 class TableController extends Controller {
-    
+
+    protected TableRepositoryInterface $tableRepository;
+
+    public function __construct(TableRepositoryInterface $tableRepository) {
+        $this->tableRepository = $tableRepository;
+    }
+
     public function index() {
-        $tables = Table::all();
-        return new TableCollection($tables);
+        try {
+            return ApiResponse::success( $this->tableRepository->getAll() );
+        } catch (Throwable $e) {
+            return ApiResponse::error($e, 'Failed to retrieve tables');
+        }
     }
 
     public function store(StoreTableRequest $request) {
-        $newTable = Table::create( $request->validated() );
-        return new TableResource( $newTable->fresh() );
+        try {
+            $newTable = $this->tableRepository->store($request->validated());
+            return ApiResponse::success($newTable, 'Table created successfully');
+        } catch (Throwable $e) {
+            return ApiResponse::error($e, 'Failed to create table');
+        }
     }
 
     public function show(Table $table) {
-        return new TableResource($table);
+        try {
+            return ApiResponse::success( $this->tableRepository->getById($table) );
+        } catch (Throwable $e) {
+            return ApiResponse::error($e, 'Failed to retrieve table');
+        }
     }
 
     public function update(UpdateTableRequest $request, Table $table) {
-        $table->update( $request->validated() );
-        return new TableResource( $table->fresh() );
+        try {
+            $updateTable = $this->tableRepository->update( $request->validated(), $table );
+            return ApiResponse::success($updateTable, 'Table updated successfully');
+        } catch (Throwable $e) {
+            return ApiResponse::error($e, 'Failed to update table');
+        }
     }
 
     public function destroy(Table $table) {
-        $table->delete();
-        return response()->json(['message' => 'Table deleted'], 200);
+        try {
+            $this->tableRepository->destroy($table);
+            return ApiResponse::success(null, 'Table deleted successfully');
+        } catch (Throwable $e) {
+            return ApiResponse::error($e, 'Failed to delete table');
+        }
+    }
+
+    public function isAvailable(Table $table) {
+        return $this->tableRepository->isAvailable($table);
     }
 
     public function getAvailableTables() {
-        $availableTables = Table::where('is_available', true)->get();
-        return new TableCollection($availableTables);
-    }
-    
-    public function isAvailable(Table $table) {
-        return $table->is_available;
+        try {
+            $tables = $this->tableRepository->getAvailableTables();
+            return ApiResponse::success($tables);
+        } catch (Throwable $e) {
+            return ApiResponse::error($e, 'Failed to retrieve available tables');
+        }
     }
 
     public function release(Table $table) {
-        // Validations
-        if ($table->is_available) return response()->json(['message' => 'Table already released'], 200);
-        if ( $table->reservations()->whereIn('status', ['pending', 'confirmed'])->exists() )
-            return response()->json(['message' => 'Cannot mark as released. There is an active reservation.'], 200);
+        try {
 
-        $table->update(['is_available' => true]);
-        return response()->json(['message' => 'Released table'], 200);
+            $result = $this->tableRepository->releaseTable($table);
+            return ApiResponse::success(null, $result['message']);
+
+        } catch (Throwable $e) {
+            return ApiResponse::error($e, 'Failed to release table');
+        }
     }
 
     public function occupied(Table $table) {
-        // Validations
-        if (!$table->is_available) return response()->json(['message' => 'Table already available'], 200);
+        try {
 
-        $table->update(['is_available' => false]);
-        return response()->json(['message' => 'Table occupied'], 200);
+            $result = $this->tableRepository->occupiedTable($table);
+            return ApiResponse::success(null, $result['message']);
+
+        } catch (Throwable $e) {
+            return ApiResponse::error($e, 'Failed to release table');
+        }
     }
-    
+
 }

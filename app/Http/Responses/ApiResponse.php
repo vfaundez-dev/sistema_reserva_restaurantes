@@ -12,12 +12,9 @@ class ApiResponse {
   public static function success($data = null, string $message = '', int $code = Response::HTTP_OK): JsonResponse {
     $response = [
       'success' => true,
+      'message' => !empty($message) ? $message : null,
       'data' => $data
     ];
-
-    if (!empty($message)) {
-      $response['message'] = $message;
-    }
 
     return response()->json($response, $code);
   }
