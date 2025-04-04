@@ -76,6 +76,16 @@ class TableRepository implements TableRepositoryInterface {
         return new TableCollection( Table::where('is_available', true)->get() );
     }
 
+    public function hasActiveReservation(Table $table, $excludeReservationId = null): bool {
+        $query = $table->reservations()->whereIn('status', ['pending', 'confirmed']);
+
+        if ($excludeReservationId) {
+            $query->where('id', '!=', $excludeReservationId);
+        }
+
+        return $query->exists();
+    }
+
     public function releaseTable(Table $table): array {
         DB::beginTransaction();
         try {

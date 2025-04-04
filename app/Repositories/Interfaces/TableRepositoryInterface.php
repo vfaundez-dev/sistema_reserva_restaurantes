@@ -18,4 +18,5 @@ interface TableRepositoryInterface {
     public function getAvailableTables(): TableCollection;
     public function releaseTable(Table $table): array;
     public function occupiedTable(Table $table): array;
+    public function hasActiveReservation(Table $table, $excludeReservationId = null): bool;
 }

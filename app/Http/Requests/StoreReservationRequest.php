@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class StoreReservationRequest extends FormRequest {
     
@@ -50,4 +52,13 @@ class StoreReservationRequest extends FormRequest {
             'table_id.exists' => 'The selected table is not available.',
         ];
     }
+
+    public function failedValidation(Validator $validator) {
+        throw new HttpResponseException( response()->json([
+            'success'   => false,
+            'message'   => 'Request validation errors',
+            'data'      => $validator->errors()
+        ]) );
+    }
+
 }

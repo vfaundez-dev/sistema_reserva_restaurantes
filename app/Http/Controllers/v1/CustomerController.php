@@ -23,7 +23,7 @@ class CustomerController extends Controller {
         try {
             return ApiResponse::success( $this->customerRepository->getAll() );
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to retrieve customers');
+            return ApiResponse::exception($e, 'Failed to retrieve customers');
         }
     }
 
@@ -32,7 +32,7 @@ class CustomerController extends Controller {
             $newCustomer = $this->customerRepository->store( $request->validated() );
             return ApiResponse::success($newCustomer, 'Customer created successfully', Response::HTTP_CREATED);
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to create customer');
+            return ApiResponse::exception($e, 'Failed to create customer');
         }
     }
 
@@ -40,7 +40,7 @@ class CustomerController extends Controller {
         try {
             return ApiResponse::success( $this->customerRepository->getById($customer) );
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to retrieve customer');
+            return ApiResponse::exception($e, 'Failed to retrieve customer');
         }
     }
 
@@ -49,7 +49,7 @@ class CustomerController extends Controller {
             $updateCustomer = $this->customerRepository->update( $request->validated(), $customer );
             return ApiResponse::success($updateCustomer, 'Customer updated successfully');
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to update customer');
+            return ApiResponse::exception($e, 'Failed to update customer');
         }
     }
 
@@ -58,7 +58,7 @@ class CustomerController extends Controller {
             $this->customerRepository->destroy($customer);
             return ApiResponse::success(null, 'Customer deleted successfully');
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to delete customer');
+            return ApiResponse::exception($e, 'Failed to delete customer');
         }
     }
 }

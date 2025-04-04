@@ -19,7 +19,17 @@ class ApiResponse {
     return response()->json($response, $code);
   }
 
-  public static function error(
+  public static function error($data = null, $message = 'Operation failed', int $code = Response::HTTP_INTERNAL_SERVER_ERROR): JsonResponse {
+    $response = [
+      'success' => false,
+      'message' => $message,
+      'data' => $data
+    ];
+
+    return response()->json($response, $code);
+  }
+
+  public static function exception(
     Throwable $e, string $message = 'Operation failed', int $code = Response::HTTP_INTERNAL_SERVER_ERROR
   ): JsonResponse {
 

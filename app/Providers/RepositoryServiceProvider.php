@@ -22,5 +22,10 @@ class RepositoryServiceProvider extends ServiceProvider {
             \App\Repositories\TableRepository::class
         );
 
+        $this->app->bind(
+            \App\Repositories\Interfaces\ReservationRepositoryInterface::class,
+            \App\Repositories\ReservationRepository::class
+        );
+
     }
 }

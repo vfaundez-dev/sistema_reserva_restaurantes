@@ -6,8 +6,6 @@ use App\Models\Table;
 use App\Http\Requests\StoreTableRequest;
 use App\Http\Requests\UpdateTableRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TableCollection;
-use App\Http\Resources\TableResource;
 use App\Http\Responses\ApiResponse;
 use App\Repositories\Interfaces\TableRepositoryInterface;
 use Throwable;
@@ -24,7 +22,7 @@ class TableController extends Controller {
         try {
             return ApiResponse::success( $this->tableRepository->getAll() );
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to retrieve tables');
+            return ApiResponse::exception($e, 'Failed to retrieve tables');
         }
     }
 
@@ -33,7 +31,7 @@ class TableController extends Controller {
             $newTable = $this->tableRepository->store($request->validated());
             return ApiResponse::success($newTable, 'Table created successfully');
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to create table');
+            return ApiResponse::exception($e, 'Failed to create table');
         }
     }
 
@@ -41,7 +39,7 @@ class TableController extends Controller {
         try {
             return ApiResponse::success( $this->tableRepository->getById($table) );
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to retrieve table');
+            return ApiResponse::exception($e, 'Failed to retrieve table');
         }
     }
 
@@ -50,7 +48,7 @@ class TableController extends Controller {
             $updateTable = $this->tableRepository->update( $request->validated(), $table );
             return ApiResponse::success($updateTable, 'Table updated successfully');
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to update table');
+            return ApiResponse::exception($e, 'Failed to update table');
         }
     }
 
@@ -59,7 +57,7 @@ class TableController extends Controller {
             $this->tableRepository->destroy($table);
             return ApiResponse::success(null, 'Table deleted successfully');
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to delete table');
+            return ApiResponse::exception($e, 'Failed to delete table');
         }
     }
 
@@ -72,7 +70,7 @@ class TableController extends Controller {
             $tables = $this->tableRepository->getAvailableTables();
             return ApiResponse::success($tables);
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to retrieve available tables');
+            return ApiResponse::exception($e, 'Failed to retrieve available tables');
         }
     }
 
@@ -83,7 +81,7 @@ class TableController extends Controller {
             return ApiResponse::success(null, $result['message']);
 
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to release table');
+            return ApiResponse::exception($e, 'Failed to release table');
         }
     }
 
@@ -94,7 +92,7 @@ class TableController extends Controller {
             return ApiResponse::success(null, $result['message']);
 
         } catch (Throwable $e) {
-            return ApiResponse::error($e, 'Failed to release table');
+            return ApiResponse::exception($e, 'Failed to release table');
         }
     }
 

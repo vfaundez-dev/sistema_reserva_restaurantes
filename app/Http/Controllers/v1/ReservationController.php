@@ -8,31 +8,69 @@ use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReservationCollection;
 use App\Http\Resources\ReservationResource;
+use App\Http\Responses\ApiResponse;
+use App\Repositories\Interfaces\ReservationRepositoryInterface;
+use App\Repositories\ReservationRepository;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ReservationController extends Controller {
+
+    protected ReservationRepositoryInterface $reservationRepository;
+
+    public function __construct(ReservationRepositoryInterface $reservationRepository) {
+        $this->reservationRepository = $reservationRepository;
+    }
     
     public function index() {
-        $reservations = Reservation::all();
-        return new ReservationCollection($reservations);
+        try {
+            return ApiResponse::success( $this->reservationRepository->getAll() );
+        } catch (Throwable $e) {
+            return ApiResponse::exception($e, 'Failed to retrieve reservations');
+        }
     }
 
     public function store(StoreReservationRequest $request) {
-        $newReservation = Reservation::create( $request->validated() );
-        return new ReservationResource( $newReservation->fresh() );
+        try {
+
+            $newReservation = $this->reservationRepository->store( $request->validated() );
+            if (isset($newReservation['error'])) return ApiResponse::error(null, $newReservation['error'], 400);
+            return ApiResponse::success($newReservation, 'Reservation created successfully');
+
+        } catch (Throwable $e) {
+            Log::error('Error creating reservation: ' . $e->getMessage());
+            return ApiResponse::exception($e, 'Failed to create reservation'); 
+        }
     }
 
     public function show(Reservation $reservation) {
-        return new ReservationResource($reservation);
+        try {
+            return ApiResponse::success( $this->reservationRepository->getById($reservation) );
+        } catch (Throwable $e) {
+            return ApiResponse::exception($e, 'Failed to retrieve reservation');
+        }
     }
 
     public function update(UpdateReservationRequest $request, Reservation $reservation) {
-        $reservation->update( $request->validated() );
-        return new ReservationResource( $reservation->fresh() );
+        try {
+
+            $updateReservation = $this->reservationRepository->update( $request->validated(), $reservation );
+            if (isset($updateReservation['error'])) return ApiResponse::error(null, $updateReservation['error'], 400);
+            return ApiResponse::success($updateReservation, 'Reservation updated successfully');
+            
+        } catch (Throwable $e) {
+            Log::error('Error updating reservation: ' . $e->getMessage());
+            return ApiResponse::exception($e, 'Failed to update reservation'); 
+        }
     }
 
     public function destroy(Reservation $reservation) {
-        $reservation->delete();
-        return response()->json(['message' => 'Reservation deleted'], 200);
+        try {
+            $reservation->delete();
+            return ApiResponse::success(null, 'Reservation deleted successfully');
+        } catch (Throwable $e) {
+            return ApiResponse::exception($e, 'Failed to delete table');
+        }
     }
 
 }

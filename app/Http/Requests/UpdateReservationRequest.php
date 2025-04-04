@@ -13,7 +13,7 @@ class UpdateReservationRequest extends FormRequest {
 
     public function rules(): array {
         return [
-            'reservation_date' => ['sometimes', 'required', 'date', 'after_or_equal:today'],
+            'reservation_date' => ['sometimes', 'required', 'date'],
             'status' => ['sometimes', 'string', 'in:pending,confirmed,cancelled'],
             'notes' => ['sometimes', 'required', 'string', 'max:255'],
             'customer_id' => ['sometimes', 'required', 'exists:customers,id'],
