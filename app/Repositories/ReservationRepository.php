@@ -100,6 +100,7 @@ class ReservationRepository implements ReservationRepositoryInterface {
             $reservation->table->update(['is_available' => true]);
             DB::commit();
             return true;
+            
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
