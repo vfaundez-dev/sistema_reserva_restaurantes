@@ -89,6 +89,23 @@ class ReservationRepository implements ReservationRepositoryInterface {
         return Reservation::where('id', $reservation->id)->exists();
     }
 
+    public function canceledReservation(Reservation $reservation): bool|array {
+        DB::beginTransaction();
+        try {
+
+            // Validations
+            if($reservation->status == 'canceled') return ['error' => 'Reservation already canceled'];
+
+            $reservation->update(['status' => 'canceled']);
+            $reservation->table->update(['is_available' => true]);
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
     private function validateTable(int $tableId): ?array {
         $table = Table::find($tableId);
 

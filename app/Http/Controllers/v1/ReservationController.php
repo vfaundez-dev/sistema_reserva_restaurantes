@@ -66,10 +66,20 @@ class ReservationController extends Controller {
 
     public function destroy(Reservation $reservation) {
         try {
-            $reservation->delete();
+            $this->reservationRepository->destroy($reservation);
             return ApiResponse::success(null, 'Reservation deleted successfully');
         } catch (Throwable $e) {
             return ApiResponse::exception($e, 'Failed to delete table');
+        }
+    }
+
+    public function cancelled(Reservation $reservation) {
+        try {
+            $cancelledReservation = $this->reservationRepository->canceledReservation($reservation);
+            if (isset($cancelledReservation['error'])) return ApiResponse::error(null, $cancelledReservation['error'], 400);
+            return ApiResponse::success(null, 'Reservation cancelled successfully');
+        } catch (Throwable $e) {
+            return ApiResponse::exception($e, 'Failed to cancel reservation');
         }
     }
 
