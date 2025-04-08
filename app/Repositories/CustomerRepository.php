@@ -6,6 +6,7 @@ use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Repositories\Interfaces\CustomerRepositoryInterfaces;
+use Illuminate\Support\Facades\DB;
 
 class CustomerRepository implements CustomerRepositoryInterfaces {
 
@@ -18,17 +19,45 @@ class CustomerRepository implements CustomerRepositoryInterfaces {
   }
 
   public function store(array $data): CustomerResource {
-    $newCustomer = Customer::create($data);
-    return CustomerResource::make( $newCustomer->fresh() );
+    DB::beginTransaction();
+    try {
+      
+      $newCustomer = Customer::create($data);
+      DB::commit();
+      return CustomerResource::make( $newCustomer->fresh() );
+
+    } catch (\Exception $e) {
+      DB::rollBack();
+      throw $e;
+    }
   }
 
   public function update(array $data, Customer $customer): CustomerResource {
-    $customer->update($data);
-    return CustomerResource::make( $customer->fresh() );
+    DB::beginTransaction();
+    try {
+
+      $customer->update($data);
+      DB::commit();
+      return CustomerResource::make( $customer->fresh() );
+
+    } catch (\Exception $e) {
+      DB::rollBack();
+      throw $e;
+    }
   }
 
   public function destroy(Customer $customer): bool {
-    return $customer->delete();
+    DB::beginTransaction();
+    try {
+
+      $deleted = $customer->delete();
+      DB::commit();
+      return $deleted;
+
+    } catch (\Exception $e) {
+      DB::rollBack();
+      throw $e;
+    }
   }
 
   public function count(): int {

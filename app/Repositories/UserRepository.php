@@ -60,19 +60,27 @@ class UserRepository implements UserRepositoryInterface {
         }
     }
 
-    public function getByEmail(string $email) {
+    public function count(): int {
+        return User::count();
+    }
+
+    public function exist(User $user): bool {
+        return User::where('id', $user->id)->exists();
+    }
+
+    public function getByEmail(string $email): ?UserResource {
         $user = User::where('email', $email)->first();
         if (!$user) return null;
         return UserResource::make( $user );
     }
 
-    public function changePassword(User $user, string $password){
+    public function changePassword(User $user, string $password):bool {
         DB::beginTransaction();
         try {
             
             $user->update(['password' => bcrypt($password)]);
             DB::commit();
-            return UserResource::make( $user->fresh() );
+            return true;
             
         } catch (\Exception $e) {
             DB::rollBack();
