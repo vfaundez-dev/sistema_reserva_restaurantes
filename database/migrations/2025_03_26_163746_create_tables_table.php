@@ -9,7 +9,6 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
-            $table->integer('table_number')->unique();
             $table->boolean('is_available')->default(true);
             $table->integer('capacity');
             $table->enum('location', ['indoor', 'outdoor'])->default('indoor');

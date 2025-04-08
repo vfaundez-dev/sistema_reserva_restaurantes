@@ -9,14 +9,13 @@ class Table extends Model {
     use HasFactory;
 
     protected $fillable = [
-        'table_number',
         'is_available',
         'capacity',
         'location',
     ];
 
     public function reservations() {
-        return $this->hasMany(Reservation::class);
+        return $this->belongsToMany(Reservation::class, 'reservation_table')->withTimestamps();
     }
     
 }

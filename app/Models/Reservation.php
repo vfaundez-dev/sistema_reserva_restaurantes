@@ -10,10 +10,12 @@ class Reservation extends Model {
 
     protected $fillable = [
         'reservation_date',
+        'reservation_time',
+        'number_of_peoples',
+        'special_request',
         'status',
         'notes',
         'customer_id',
-        'table_id',
         'user_id',
     ];
 
@@ -25,12 +27,12 @@ class Reservation extends Model {
         return $this->belongsTo(Customer::class);
     }
 
-    public function table() {
-        return $this->belongsTo(Table::class);
-    }
-
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function tables() {
+        return $this->belongsToMany(Table::class, 'reservation_table')->withTimestamps();
     }
     
 }

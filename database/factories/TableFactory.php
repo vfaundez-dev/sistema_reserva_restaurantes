@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class TableFactory extends Factory {
     
     public function definition(): array {
-        $lastTableNumber = Table::max('table_number') ?? 0;
-
         return [
-            'table_number' => $lastTableNumber + 1,
+            'is_available' => true,
             'capacity' => $this->faker->numberBetween(2, 8),
             'location' => $this->faker->randomElement(['indoor', 'outdoor']),
         ];

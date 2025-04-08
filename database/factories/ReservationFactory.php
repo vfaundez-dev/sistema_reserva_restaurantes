@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Customer;
+use App\Models\Reservation;
 use App\Models\Table;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -11,28 +12,54 @@ class ReservationFactory extends Factory {
     
     public function definition(): array {
 
-        $availableTable = Table::whereDoesntHave('reservations', function ($query) {
-            $query->whereIn('status', ['pending', 'confirmed']);
-        })->where('is_available', true)
-          ->inRandomOrder()
-          ->first();
-
-        $status = $this->faker->randomElement(['pending', 'confirmed', 'canceled']);
-
-        if (!$availableTable) {
-            $status = 'canceled';
-            $availableTable = Table::inRandomOrder()->first();
-        } else {
-            $availableTable->update(['is_available' => false]);
-        }
+        $status = $this->faker->randomElement(['pending', 'confirmed', 'completed', 'canceled']);
+        $date = $this->faker->dateTimeBetween(now(), '+1 week');
+        $time = $this->faker->time('H:i');
 
         return [
-            'reservation_date' => $this->faker->dateTimeBetween(now(), '+1 month'),
+            'reservation_date' => $date->format('Y-m-d'),
+            'reservation_time' => $time,
+            'number_of_peoples' => $this->faker->numberBetween(1, 8),
+            'special_request' => $this->faker->text(50),
             'status' => $status,
             'notes' => $this->faker->text(),
             'customer_id' => Customer::inRandomOrder()->first()->id,
-            'table_id' => $availableTable->id,
             'user_id' => User::inRandomOrder()->first()->id,
         ];
+
     }
+
+    public function configure() {
+        return $this->afterCreating(function (Reservation $reservation) {
+
+            $tablesCount = $this->faker->numberBetween(1, 2); // Only one or two tables for a reservation
+            $tables = collect();
+
+            // We get two tables for reservation
+            if ($reservation->id <= 10) {
+                $tables = Table::inRandomOrder()->limit($tablesCount)->get();
+            } else {
+
+                // For other reservations (11 to 15)
+                $tables = Table::where('capacity', '>=', $reservation->number_of_peoples)
+                    ->where('is_available', true)
+                    ->inRandomOrder()
+                    ->limit($tablesCount)
+                    ->get();
+
+                // Update table availability if the reservation is pending or confirmed
+                if ( in_array($reservation->status, ['pending', 'confirmed']) ) {
+                    $tables->each(function ($table) {
+                        $table->update(['is_available' => false]);
+                    });
+                }
+
+            }
+
+            // Attach the tables to the reservation
+            $reservation->tables()->attach($tables);
+
+        });
+    }
+
 }
