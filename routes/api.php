@@ -19,6 +19,8 @@ Route::prefix('v1')->group( function () {
     Route::patch('reservations/{reservation}/cancelled', [ReservationController::class, 'cancelled'])->name('reservation.cancelled');
     Route::apiResource('reservations', ReservationController::class);
 
+    Route::patch('users/{user}/change-password', [UserController::class, 'changePassword'])->name('users.change-password');
+    Route::post('users/get-by-email', [UserController::class, 'getByEmail'])->name('users.get-by-email');
     Route::apiResource('users', UserController::class);
 
 });
