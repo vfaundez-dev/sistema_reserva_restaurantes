@@ -14,5 +14,6 @@ interface ReservationRepositoryInterface {
     public function destroy(Reservation $reservation): bool;
     public function count(): int;
     public function exist(Reservation $reservation): bool;
-    public function canceledReservation(Reservation $reservation): bool|array;
+    public function completed(Reservation $reservation): ReservationResource|array;
+    public function canceled(Reservation $reservation): ReservationResource|array;
 }

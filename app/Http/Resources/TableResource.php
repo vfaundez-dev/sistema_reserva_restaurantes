@@ -13,8 +13,6 @@ class TableResource extends JsonResource {
             'isAvailable' => $this->is_available,
             'capacity' => $this->capacity,
             'location' => $this->location,
-            'createdAt' => $this->created_at->format('Y-m-d H:i:s'),
-            'updatedAt' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 }

@@ -12,7 +12,6 @@ class Reservation extends Model {
         'reservation_date',
         'reservation_time',
         'number_of_peoples',
-        'special_request',
         'status',
         'notes',
         'customer_id',
@@ -20,7 +19,7 @@ class Reservation extends Model {
     ];
 
     protected $casts = [
-        'reservation_date' => 'datetime',
+        'reservation_date' => 'date'
     ];
 
     public function customer() {

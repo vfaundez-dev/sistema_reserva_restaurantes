@@ -14,15 +14,17 @@ class ReservationFactory extends Factory {
 
         $status = $this->faker->randomElement(['pending', 'confirmed', 'completed', 'canceled']);
         $date = $this->faker->dateTimeBetween(now(), '+1 week');
-        $time = $this->faker->time('H:i');
+        $time = $time = \Carbon\Carbon::createFromTime(
+                    $this->faker->numberBetween(11, 22), // Hours
+                    $this->faker->numberBetween(0, 59)   // Minutes
+                )->format('H:i'); // 11:00 to 22:00 hrs
 
         return [
             'reservation_date' => $date->format('Y-m-d'),
             'reservation_time' => $time,
             'number_of_peoples' => $this->faker->numberBetween(1, 8),
-            'special_request' => $this->faker->text(50),
             'status' => $status,
-            'notes' => $this->faker->text(),
+            'notes' => $this->faker->text(50),
             'customer_id' => Customer::inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id,
         ];

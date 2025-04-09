@@ -75,15 +75,27 @@ class ReservationController extends Controller {
         }
     }
 
+    public function completed(Reservation $reservation) {
+        try {
+
+            $completedReservation = $this->reservationRepository->completed($reservation);
+            if (isset($completedReservation['error'])) return ApiResponse::error(null, $completedReservation['error'], 400);
+            return ApiResponse::success(null, 'Reservation completed successfully');
+
+        } catch (Throwable $e) {
+            return ApiResponse::exception($e, 'Failed to completed reservation');
+        }
+    }
+
     public function cancelled(Reservation $reservation) {
         try {
 
-            $cancelledReservation = $this->reservationRepository->canceledReservation($reservation);
+            $cancelledReservation = $this->reservationRepository->canceled($reservation);
             if (isset($cancelledReservation['error'])) return ApiResponse::error(null, $cancelledReservation['error'], 400);
             return ApiResponse::success(null, 'Reservation cancelled successfully');
 
         } catch (Throwable $e) {
-            return ApiResponse::exception($e, 'Failed to cancel reservation');
+            return ApiResponse::exception($e, 'Failed to canceled reservation');
         }
     }
 

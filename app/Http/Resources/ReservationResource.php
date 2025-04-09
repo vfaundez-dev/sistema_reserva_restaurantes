@@ -10,14 +10,15 @@ class ReservationResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'id' => $this->id,
-            'reservationDate' => $this->reservation_date->format('Y-m-d H:i:s'),
+            'reservationDate' => $this->reservation_date->format('Y-m-d'),
+            'reservationTime' => $this->reservation_time,
+            'numberOfPeoples' => $this->number_of_peoples,
+            'status' => $this->status,
             'status' => $this->status,
             'notes' => $this->notes,
-            'createdAt' => $this->created_at->format('Y-m-d H:i:s'),
-            'updatedAt' => $this->updated_at->format('Y-m-d H:i:s'),
-            'customer' => new CustomerResource($this->customer),
-            'tables' => new TableResource($this->table),
-            'owner' => $this->user_id,
+            'customer' => new CustomerResource( $this->customer ),
+            'owner' => new UserResource( $this->user ),
+            'tables' => TableResource::collection( $this->tables ),
         ];
     }
 }

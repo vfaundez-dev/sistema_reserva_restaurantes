@@ -16,9 +16,8 @@ class StoreReservationRequest extends FormRequest {
     public function rules(): array {
         return [
             'reservation_date' => ['required', 'date', 'after_or_equal:today'],
-            'reservation_time' => ['required', 'date_format:H:i', 'after_or_equal:now'],
+            'reservation_time' => ['required', 'date_format:H:i'],
             'number_of_peoples' => ['required', 'integer', 'min:1'],
-            'special_request' => ['nullable', 'string', 'max:255'],
             'status' => ['sometimes', 'string', 'in:pending,confirmed,cancelled'],
             'notes' => ['required', 'string', 'max:255'],
             'customer_id' => ['required', 'exists:customers,id'],
@@ -33,7 +32,6 @@ class StoreReservationRequest extends FormRequest {
             'reservation_date' => $this->input('reservationDate'),
             'reservation_time' => $this->input('reservationTime'),
             'number_of_peoples' => $this->input('numberOfPeoples'),
-            'special_request' => $this->input('specialRequest'),
             'customer_id' => $this->input('customer'),
             'user_id' => $this->input('owner'),
             'table_ids' => $this->input('tables'),
@@ -45,7 +43,6 @@ class StoreReservationRequest extends FormRequest {
             'reservation_date' => 'reservationDate',
             'reservation_time' => 'reservationTime',
             'number_of_peoples' => 'numberOfPeoples',
-            'special_request' => 'specialRequest',
             'customer_id' => 'customer',
             'user_id' => 'owner',
             'table_ids' => 'tables',

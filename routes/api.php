@@ -16,6 +16,7 @@ Route::prefix('v1')->group( function () {
     Route::patch('tables/{table}/occupied', [TableController::class, 'occupied'])->name('tables.occupied');
     Route::apiResource('tables', TableController::class);
 
+    Route::patch('reservations/{reservation}/completed', [ReservationController::class, 'completed'])->name('reservation.completed');
     Route::patch('reservations/{reservation}/cancelled', [ReservationController::class, 'cancelled'])->name('reservation.cancelled');
     Route::apiResource('reservations', ReservationController::class);
 

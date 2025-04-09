@@ -14,8 +14,6 @@ class CustomerResource extends JsonResource {
             'email' => $this->email,
             'phone' => $this->phone,
             'registrationDate' => $this->registration_date->format('Y-m-d H:i:s'),
-            'createdAt' => $this->created_at->format('Y-m-d H:i:s'),
-            'updatedAt' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 }
