@@ -3,7 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class UpdateReservationRequest extends FormRequest {
     
@@ -13,25 +14,28 @@ class UpdateReservationRequest extends FormRequest {
 
     public function rules(): array {
         return [
-            'reservation_date' => ['sometimes', 'required', 'date'],
+            'reservation_date' => ['sometimes', 'date', 'after_or_equal:today'],
+            'reservation_time' => ['sometimes', 'date_format:H:i'],
+            'number_of_peoples' => ['sometimes', 'integer', 'min:1'],
+            'special_request' => ['nullable', 'string', 'max:255'],
             'status' => ['sometimes', 'string', 'in:pending,confirmed,cancelled'],
-            'notes' => ['sometimes', 'required', 'string', 'max:255'],
-            'customer_id' => ['sometimes', 'required', 'exists:customers,id'],
-            'table_id' => ['sometimes', 'required', 'exists:tables,id',
-                Rule::exists('tables', 'id')->where(function ($query) {
-                    $query->where('is_available', true);
-                })
-            ],
-            'user_id' => ['sometimes', 'required', 'exists:users,id'],
+            'notes' => ['sometimes', 'string', 'max:255'],
+            'customer_id' => ['sometimes', 'exists:customers,id'],
+            'user_id' => ['sometimes', 'exists:users,id'],
+            'table_ids' => ['sometimes', 'array', 'min:1'],
+            'table_ids.*' => ['exists:tables,id'],
         ];
     }
 
     protected function prepareForValidation() {
         collect([
             'reservationDate' => 'reservation_date',
+            'reservationTime' => 'reservation_time',
+            'numberOfPeoples' => 'number_of_peoples',
+            'specialRequest' => 'special_request',
             'customer' => 'customer_id',
-            'table' => 'table_id',
-            'owner' => 'user_id'
+            'owner' => 'user_id',
+            'tables' => 'table_ids',
         ])->each(function ($attribute, $key) {
             if ($this->has($key)) {
                 $this->merge( [$attribute => $this->input($key)] );
@@ -42,16 +46,21 @@ class UpdateReservationRequest extends FormRequest {
     public function attributes(): array {
         return [
             'reservation_date' => 'reservationDate',
+            'reservation_time' => 'reservationTime',
+            'number_of_peoples' => 'numberOfPeoples',
+            'special_request' => 'specialRequest',
             'customer_id' => 'customer',
-            'table_id' => 'table',
             'user_id' => 'owner',
+            'table_ids' => 'tables',
         ];
     }
 
-    public function messages() {
-        return [
-            'table_id.exists' => 'The selected table is not available.',
-        ];
+    public function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Request validation errors',
+            'data' => $validator->errors()
+        ], 422));
     }
     
 }

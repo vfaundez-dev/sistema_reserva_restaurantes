@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class UpdateCustomerRequest extends FormRequest {
     
@@ -41,6 +43,14 @@ class UpdateCustomerRequest extends FormRequest {
         return [
             'registration_date' => 'registrationDate'
         ];
+    }
+
+    public function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Request validation errors',
+            'data' => $validator->errors()
+        ], 422));
     }
 
 }
