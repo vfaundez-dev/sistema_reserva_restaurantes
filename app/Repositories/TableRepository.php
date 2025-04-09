@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class TableRepository implements TableRepositoryInterface {
     
     public function getAll(): TableCollection {
-        return new TableCollection( Table::all() );
+        return new TableCollection( Table::orderBy('id', 'desc')->get() );
     }
 
     public function getById(Table $table): TableResource {

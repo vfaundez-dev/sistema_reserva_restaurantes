@@ -45,6 +45,10 @@ class TableController extends Controller {
 
     public function update(UpdateTableRequest $request, Table $table) {
         try {
+
+            if ( $table->reservations()->whereIn('status', ['pending', 'confirmed'])->exists() )
+                return ApiResponse::error('Cannot be updated. Table already in use.');
+            
             $updateTable = $this->tableRepository->update( $request->validated(), $table );
             return ApiResponse::success($updateTable, 'Table updated successfully');
         } catch (Throwable $e) {
@@ -54,6 +58,10 @@ class TableController extends Controller {
 
     public function destroy(Table $table) {
         try {
+
+            if ( $table->reservations()->whereIn('status', ['pending', 'confirmed'])->exists() )
+                return ApiResponse::error('Cannot be deleted. Table already in use.');
+
             $this->tableRepository->destroy($table);
             return ApiResponse::success(null, 'Table deleted successfully');
         } catch (Throwable $e) {
