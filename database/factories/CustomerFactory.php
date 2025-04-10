@@ -10,7 +10,7 @@ class CustomerFactory extends Factory {
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
+            'phone' => $this->faker->e164PhoneNumber(),
             'registration_date' => $this->faker->dateTimeBetween(now(), '+1 week'),
         ];
     }

@@ -24,7 +24,7 @@ class ReservationFactory extends Factory {
             'reservation_time' => $time,
             'number_of_peoples' => $this->faker->numberBetween(1, 8),
             'status' => $status,
-            'notes' => $this->faker->text(50),
+            'notes' => $this->faker->paragraph(1),
             'customer_id' => Customer::inRandomOrder()->first()->id,
             'user_id' => User::inRandomOrder()->first()->id,
         ];
