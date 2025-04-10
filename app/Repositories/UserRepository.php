@@ -50,6 +50,9 @@ class UserRepository implements UserRepositoryInterface {
         DB::beginTransaction();
         try {
 
+            // Transfer reservations to the Admin user
+            $user->reservations()->update(['user_id' => 1]);
+
             $deleted = $user->delete();
             DB::commit();
             return $deleted;

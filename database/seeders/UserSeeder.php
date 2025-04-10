@@ -18,8 +18,14 @@ class UserSeeder extends Seeder {
                 'role_id' => 1,
             ],
             [
-                'name' => 'User 1',
-                'email' => 'user1@reservation.com',
+                'name' => 'Manager',
+                'email' => 'manager@reservation.com',
+                'password' => Hash::make('asdf1234'),
+                'role_id' => 2,
+            ],
+            [
+                'name' => 'Receptionist',
+                'email' => 'receptionist@reservation.com',
                 'password' => Hash::make('asdf1234'),
                 'role_id' => 3,
             ],
