@@ -16,7 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'protected.admin' => \App\Http\Middleware\ProtectAdminUser::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
 

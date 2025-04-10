@@ -50,7 +50,7 @@ class UserController extends Controller {
     public function update(UpdateUserRequest $request, User $user) {
         try {
 
-            if ($user->id == 1) return ApiResponse::error(null, 'Not authorized to delete Admin user', 403);
+            if ($user->id == 1) return ApiResponse::error(null, 'Not authorized to modify o deleted Admin user', 403);
             $updateUser = $this->userRepository->update( $request->validated(), $user );
             return ApiResponse::success( $updateUser, 'User updated successfully' );
             
@@ -62,7 +62,7 @@ class UserController extends Controller {
     public function destroy(User $user) {
         try {
 
-            if ($user->id == 1) return ApiResponse::error(null, 'Not authorized to delete Admin user', 403);
+            if ($user->id == 1) return ApiResponse::error(null, 'Not authorized to modify o deleted Admin user', 403);
             $this->userRepository->destroy($user);
             return ApiResponse::success(null, 'User deleted successfully');
 
