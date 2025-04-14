@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'protected.admin' => \App\Http\Middleware\ProtectAdminUser::class,
+            'permission' => \App\Http\Middleware\CheckPermission::class,
+            'password.change' => \App\Http\Middleware\PasswordChangePermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
