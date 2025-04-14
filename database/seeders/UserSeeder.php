@@ -10,29 +10,38 @@ use Illuminate\Support\Facades\Hash;
 class UserSeeder extends Seeder {
     
     public function run(): void {
-        $users = [
-            [
-                'name' => 'Administrador',
-                'email' => 'admin@reservation.com',
-                'password' => Hash::make('asdf1234'),
-                'role_id' => 1,
-            ],
-            [
-                'name' => 'Manager',
-                'email' => 'manager@reservation.com',
-                'password' => Hash::make('asdf1234'),
-                'role_id' => 2,
-            ],
-            [
-                'name' => 'Receptionist',
-                'email' => 'receptionist@reservation.com',
-                'password' => Hash::make('asdf1234'),
-                'role_id' => 3,
-            ],
-        ];
 
-        foreach ($users as $user) {
-            User::create($user);
-        }
+        // Admin
+        $admin = User::create([
+            'name' => 'Administrador',
+            'email' => 'admin@reservation.com',
+            'password' => Hash::make('asdf1234'),
+        ]);
+        $admin->assignRole('administrator');
+
+        // Manager
+        $manager = User::create([
+            'name' => 'Manager',
+            'email' => 'manager@reservation.com',
+            'password' => Hash::make('asdf1234'),
+        ]);
+        $manager->assignRole('manager');
+
+        // Receptionist
+        $receptionist = User::create([
+            'name' => 'Receptionist',
+            'email' => 'receptionist@reservation.com',
+            'password' => Hash::make('asdf1234'),
+        ]);
+        $receptionist->assignRole('receptionist');
+
+        // Waiter
+        $waiter = User::create([
+            'name' => 'Waiter',
+            'email' => 'waiter@reservation.com',
+            'password' => Hash::make('asdf1234'),
+        ]);
+        $waiter->assignRole('waiter');
+
     }
 }
