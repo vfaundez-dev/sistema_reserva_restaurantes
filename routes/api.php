@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\v1\CustomerController;
 use App\Http\Controllers\v1\ReservationController;
 use App\Http\Controllers\v1\TableController;
@@ -7,7 +8,7 @@ use App\Http\Controllers\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->group( function () {
+Route::prefix('v1')->middleware('api')->group( function () {
 
     // Customers
     Route::apiResource('customers', CustomerController::class)
@@ -36,5 +37,13 @@ Route::prefix('v1')->group( function () {
             ->middleware('permission:view users');
     Route::apiResource('users', UserController::class)->middleware('protected.admin')
             ->middleware(['permission:view users|create users|edit users|delete users']);
+
+    Route::prefix('auth')->group( function() {
+        Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+        Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::post('register', [AuthController::class, 'register'])->name('auth.register');
+        Route::post('refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
+        Route::post('me', [AuthController::class, 'me'])->name('auth.me');
+    });
 
 });

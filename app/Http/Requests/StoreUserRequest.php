@@ -6,33 +6,34 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use Spatie\Permission\Models\Role;
 
 class StoreUserRequest extends FormRequest {
     
     public function authorize(): bool {
-        return true;
+
+        if (!auth()->check()) {
+            return false;
+        }
+
+        return $this->user()->can('create users');
     }
 
     public function rules(): array {
+
+        $user = auth()->user();
+        $availableRoles = Role::all()->pluck('name')->toArray();
+
+        // Only administrators can assign administrator roles
+        if (!$user->hasRole('administrator')) {
+            $availableRoles = array_filter($availableRoles, fn($role) => $role !== 'administrator');
+        }
+
         return [
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'role_id' => ['required', 'numeric', 'exists:App\Models\Role,id'],
             'password' => ['required', 'string', Password::min(6)->letters()->numbers()->symbols()->mixedCase()],
-        ];
-    }
-
-    protected function prepareForValidation() {
-        if ($this->has('role')) {
-            $this->merge([
-                'role_id' => $this->input('role')
-            ]);
-        }
-    }
-
-    public function attributes(): array {
-        return [
-            'role_id' => 'role'
+            'role' => ['required', 'string', 'in:'.implode(',', $this->getAvailableRoles())],
         ];
     }
 
@@ -42,6 +43,17 @@ class StoreUserRequest extends FormRequest {
             'message' => 'Request validation errors',
             'data' => $validator->errors()
         ], 422));
+    }
+
+    protected function getAvailableRoles(): array {
+        $availableRoles = Role::all()->pluck('name')->toArray();
+
+        // Only administrators can assign administrator roles
+        if (!auth()->user()->hasRole('administrator')) {
+            $availableRoles = array_filter($availableRoles, fn($role) => $role !== 'administrator');
+        }
+
+        return $availableRoles;
     }
 
 }

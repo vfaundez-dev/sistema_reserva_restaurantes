@@ -50,6 +50,9 @@ class TableRepository implements TableRepositoryInterface {
         DB::beginTransaction();
         try {
             
+            if ( !$table->is_available && $table->reservations()->whereIn('status', ['pending', 'confirmed'])->exists() )
+                throw new \Exception('Cannot be deleted. Table already in use.');
+
             $deleted = $table->delete();
             DB::commit();
             return $deleted;

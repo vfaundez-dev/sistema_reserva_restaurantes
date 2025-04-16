@@ -12,7 +12,7 @@ class UserResource extends JsonResource {
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->role->name,
+            'roles' => $this->getRoleNames()->toArray(),
         ];
     }
 }

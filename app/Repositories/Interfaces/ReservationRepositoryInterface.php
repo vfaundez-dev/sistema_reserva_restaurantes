@@ -10,10 +10,10 @@ interface ReservationRepositoryInterface {
     public function getAll(): ReservationCollection;
     public function getById(Reservation $customer): ReservationResource;
     public function store(array $data): ReservationResource|array;
-    public function update(array $data, Reservation $reservation): ReservationResource|array;
+    public function update(array $data, Reservation $reservation): ReservationResource;
     public function destroy(Reservation $reservation): bool;
     public function count(): int;
     public function exist(Reservation $reservation): bool;
-    public function completed(Reservation $reservation): ReservationResource|array;
-    public function canceled(Reservation $reservation): ReservationResource|array;
+    public function completed(Reservation $reservation): ReservationResource;
+    public function canceled(Reservation $reservation): ReservationResource;
 }

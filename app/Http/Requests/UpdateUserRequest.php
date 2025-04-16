@@ -7,43 +7,31 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use Spatie\Permission\Models\Role;
 
 class UpdateUserRequest extends FormRequest {
     
     public function authorize(): bool {
-        return true;
+        if (!auth()->check()) {
+            return false;
+        }
+
+        return $this->user()->can('edit users');
     }
 
     public function rules(): array {
-        if ($this->method() === 'PUT') {
-            return [
-                'name' => ['required', 'string', 'max:100'],
-                'email' => ['required', 'email', Rule::unique(table: 'users')->ignore( $this->route('user') )],
-                'role_id' => ['required', 'numeric', 'exists:App\Models\Role,id'],
-                'password' => ['sometimes', 'required', 'string', Password::min(6)->letters()->numbers()->symbols()->mixedCase()],
-            ];
-        } else {
-            return [
-                'name' => ['sometimes', 'required', 'string', 'max:100'],
-                'email' => ['sometimes', 'required', 'email', Rule::unique(table: 'users')->ignore( $this->route('user') )],
-                'role_id' => ['sometimes', 'required', 'numeric', 'exists:App\Models\Role,id'],
-                'password' => ['sometimes', 'required', 'string', Password::min(6)->letters()->numbers()->symbols()->mixedCase()],
-            ];
-        }
-    }
 
-    protected function prepareForValidation() {
-        if ($this->has('role')) {
-            $this->merge([
-                'role_id' => $this->input('role')
-            ]);
-        }
-    }
-
-    public function attributes(): array {
-        return [
-            'role_id' => 'role'
+        $baseRules = [
+            'name' => ['sometimes', 'required', 'string', 'max:100'],
+            'email' => ['sometimes', 'required', 'email', Rule::unique('users')->ignore( $this->route('user') )],
+            'password' => ['sometimes', 'required', 'string', Password::min(6)->letters()->numbers()->symbols()->mixedCase()],
         ];
+
+        if ($this->has('role')) {
+            $baseRules['role'] = ['required', 'string', 'in:'.implode(',', $this->getAvailableRoles())];
+        }
+
+        return $baseRules;
     }
 
     public function failedValidation(Validator $validator) {
@@ -52,6 +40,17 @@ class UpdateUserRequest extends FormRequest {
             'message' => 'Request validation errors',
             'data' => $validator->errors()
         ], 422));
+    }
+
+    protected function getAvailableRoles(): array {
+        $availableRoles = Role::all()->pluck('name')->toArray();
+
+        // Only administrators can assign administrator roles
+        if (!auth()->user()->hasRole('administrator')) {
+            $availableRoles = array_filter($availableRoles, fn($role) => $role !== 'administrator');
+        }
+
+        return $availableRoles;
     }
 
 }

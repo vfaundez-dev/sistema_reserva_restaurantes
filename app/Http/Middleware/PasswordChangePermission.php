@@ -11,14 +11,14 @@ class PasswordChangePermission {
     
     public function handle(Request $request, Closure $next): Response {
 
-        if (!$request->user()) {
-            return ApiResponse::error(null, 'Unauthenticated', 401);
+        $user = auth()->user();
+        $targetUser = $request->route('user');
+
+        if ($user->hasRole('administrator')) {
+            return $next($request);
         }
 
-        $user = $request->user();
-        $targetUserId = $request->route('user');
-
-        if ( $user->hasRole('administrator') || $user->id == $targetUserId ) {
+        if ($user->id == $targetUser) {
             return $next($request);
         }
 

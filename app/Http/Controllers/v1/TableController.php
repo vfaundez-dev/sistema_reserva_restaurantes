@@ -59,11 +59,9 @@ class TableController extends Controller {
     public function destroy(Table $table) {
         try {
 
-            if ( $table->reservations()->whereIn('status', ['pending', 'confirmed'])->exists() )
-                return ApiResponse::error('Cannot be deleted. Table already in use.');
-
             $this->tableRepository->destroy($table);
             return ApiResponse::success(null, 'Table deleted successfully');
+            
         } catch (Throwable $e) {
             return ApiResponse::exception($e, 'Failed to delete table');
         }

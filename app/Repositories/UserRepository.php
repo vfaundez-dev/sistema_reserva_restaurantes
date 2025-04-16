@@ -23,6 +23,7 @@ class UserRepository implements UserRepositoryInterface {
         try {
             
             $newUser = User::create($data);
+            $newUser->assignRole( $data['role'] ?? 'waiter' );
             DB::commit();
             return UserResource::make( $newUser->fresh() );
             
@@ -37,6 +38,18 @@ class UserRepository implements UserRepositoryInterface {
         try {
 
             $user->update($data);
+            
+            if (isset($data['role'])) {
+                $currentRole = $user->getRoleNames()->first();
+
+                if ($data['role'] !== $currentRole) {
+                    if ( $data['role'] === 'administrator' )
+                        throw new \Exception('Denied assigning the administrator role');
+
+                    $user->syncRoles([ $data['role'] ]);
+                }
+            }
+            
             DB::commit();
             return UserResource::make( $user->fresh() );
             
@@ -53,6 +66,10 @@ class UserRepository implements UserRepositoryInterface {
             // Transfer reservations to the Admin user
             $user->reservations()->update(['user_id' => 1]);
 
+            // Delete roles and permissions
+            $user->syncRoles([]);
+            $user->permissions()->detach();
+            
             $deleted = $user->delete();
             DB::commit();
             return $deleted;
