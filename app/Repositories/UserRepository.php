@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class UserRepository implements UserRepositoryInterface {
 
     public function getAll(): UserCollection {
-        return new UserCollection( User::all() );
+        return new UserCollection( User::orderBy('id', 'desc')->get() );
     }
 
     public function getById(User $user): UserResource {

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class CustomerRepository implements CustomerRepositoryInterfaces {
 
   public function getAll(): CustomerCollection {
-    return new CustomerCollection( Customer::all() );
+    return new CustomerCollection( Customer::orderBy('id', 'desc')->get() );
   }
 
   public function getById(Customer $customer): CustomerResource {
