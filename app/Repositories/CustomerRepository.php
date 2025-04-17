@@ -6,12 +6,27 @@ use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Repositories\Interfaces\CustomerRepositoryInterfaces;
+use App\Traits\Filterable;
 use Illuminate\Support\Facades\DB;
 
 class CustomerRepository implements CustomerRepositoryInterfaces {
+  Use Filterable;
+
+  protected $model;
+
+  public function __construct() {
+    $this->model = new Customer();
+    $this->filterableFields = $this->model->getFillable();
+    $this->searchableFields = array_diff( $this->filterableFields, ['registration_date'] );
+    $this->includes = ['reservations'];
+  }
 
   public function getAll(): CustomerCollection {
-    return new CustomerCollection( Customer::orderBy('id', 'desc')->get() );
+
+    $query = $this->model->newQuery();
+    $query = $this->applyFilters($query);
+
+    return new CustomerCollection( $this->applyPagination($query) );
   }
 
   public function getById(Customer $customer): CustomerResource {

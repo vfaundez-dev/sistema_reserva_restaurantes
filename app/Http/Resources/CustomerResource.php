@@ -14,6 +14,7 @@ class CustomerResource extends JsonResource {
             'email' => $this->email,
             'phone' => $this->phone,
             'registrationDate' => $this->registration_date->format('Y-m-d H:i:s'),
+            'reservations' => ReservationResource::collection( $this->whenLoaded('reservations') )
         ];
     }
 }
