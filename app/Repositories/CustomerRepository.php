@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Repositories\Interfaces\CustomerRepositoryInterfaces;
 use App\Traits\Filterable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class CustomerRepository implements CustomerRepositoryInterfaces {
   Use Filterable;
@@ -25,12 +26,16 @@ class CustomerRepository implements CustomerRepositoryInterfaces {
 
     $query = $this->model->newQuery();
     $query = $this->applyFilters($query);
-
     return new CustomerCollection( $this->applyPagination($query) );
+
   }
 
   public function getById(Customer $customer): CustomerResource {
-    return CustomerResource::make($customer);
+
+    $query = $this->model->newQuery();
+    $query = $this->aplyOnlyIncludeFilter($query);
+    return CustomerResource::make( $query->findOrFail($customer->id) );
+
   }
 
   public function store(array $data): CustomerResource {

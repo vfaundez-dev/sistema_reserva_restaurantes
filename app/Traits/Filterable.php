@@ -20,7 +20,6 @@ trait Filterable {
     * Apply filters to query
     *
     * @param Builder $query
-    * @param array $allowedFilters
     * @return Builder
     */
     public function applyFilters(Builder $query): Builder {
@@ -58,6 +57,24 @@ trait Filterable {
         }
 
         return $query;
+    }
+
+    /**
+    * Apply only include filters to query
+    *
+    * @param Builder $query
+    * @param Request $request
+    * @return Builder
+    */
+    public function aplyOnlyIncludeFilter(Builder $query): Builder {
+        $request = app(Request::class);
+
+        if ($request->has('include')) {
+            $this->loadRelationships($query, $request);
+        }
+
+        return $query;
+
     }
 
     /**
