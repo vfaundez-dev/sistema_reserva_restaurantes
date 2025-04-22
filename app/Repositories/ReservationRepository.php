@@ -8,25 +8,36 @@ use App\Models\Reservation;
 use App\Models\Table;
 use App\Repositories\Interfaces\ReservationRepositoryInterface;
 use App\Repositories\Interfaces\TableRepositoryInterface;
+use App\Traits\Filterable;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ReservationRepository implements ReservationRepositoryInterface {
+    use Filterable;
 
     protected TableRepositoryInterface $tableRepository;
     protected $initHour = '11:00';
     protected $endHour = '22:00';
+    protected $model;
 
     public function __construct(TableRepositoryInterface $tableRepository) {
+        $this->model = new Reservation();
         $this->tableRepository = $tableRepository;
+        $this->filterableFields = $this->model->getFillable();
+        $this->searchableFields = array_diff( $this->filterableFields, ['reservation_date'] );
+        $this->includes = ['customer', 'user', 'tables'];
     }
     
     public function getAll(): ReservationCollection {
-        return new ReservationCollection( Reservation::orderBy('id', 'desc')->get() );
+        $query = $this->model->newQuery();
+        $query = $this->applyFilters($query);
+        return new ReservationCollection( $this->applyPagination($query) );
     }
 
     public function getById(Reservation $reservation): ReservationResource {
-        return ReservationResource::make($reservation);
+        $query = $this->model->newQuery();
+        $query = $this->aplyOnlyIncludeFilter($query);
+        return ReservationResource::make( $query->findOrFail($reservation->id) );
     }
 
     public function store(array $data): ReservationResource {

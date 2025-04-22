@@ -13,6 +13,7 @@ class TableResource extends JsonResource {
             'isAvailable' => $this->is_available,
             'capacity' => $this->capacity,
             'location' => $this->location,
+            'reservations' => ReservationResource::collection( $this->whenLoaded('reservations') ),
         ];
     }
 }

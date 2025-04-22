@@ -13,6 +13,7 @@ class UserResource extends JsonResource {
             'name' => $this->name,
             'email' => $this->email,
             'roles' => $this->getRoleNames()->toArray(),
+            'reservations' => ReservationResource::collection( $this->whenLoaded('reservations') ),
         ];
     }
 }

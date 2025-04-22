@@ -23,19 +23,15 @@ class CustomerRepository implements CustomerRepositoryInterfaces {
   }
 
   public function getAll(): CustomerCollection {
-
     $query = $this->model->newQuery();
     $query = $this->applyFilters($query);
     return new CustomerCollection( $this->applyPagination($query) );
-
   }
 
   public function getById(Customer $customer): CustomerResource {
-
     $query = $this->model->newQuery();
     $query = $this->aplyOnlyIncludeFilter($query);
     return CustomerResource::make( $query->findOrFail($customer->id) );
-
   }
 
   public function store(array $data): CustomerResource {

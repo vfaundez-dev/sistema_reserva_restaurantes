@@ -16,9 +16,9 @@ class ReservationResource extends JsonResource {
             'status' => $this->status,
             'status' => $this->status,
             'notes' => $this->notes,
-            //'customer' => new CustomerResource( $this->customer ),
-            //'owner' => new UserResource( $this->user ),
-            //'tables' => TableResource::collection( $this->tables ),
+            'customer' => new CustomerResource( $this->whenLoaded('customer') ),
+            'owner' => new UserResource( $this->whenLoaded('user') ),
+            'tables' => TableResource::collection( $this->whenLoaded('tables') )
         ];
     }
 }

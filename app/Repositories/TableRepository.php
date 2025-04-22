@@ -6,16 +6,31 @@ use App\Http\Resources\TableCollection;
 use App\Http\Resources\TableResource;
 use App\Models\Table;
 use App\Repositories\Interfaces\TableRepositoryInterface;
+use App\Traits\Filterable;
 use Illuminate\Support\Facades\DB;
 
 class TableRepository implements TableRepositoryInterface {
+    use Filterable;
+
+    protected $model;
+
+    public function __construct() {
+        $this->model = new Table();
+        $this->filterableFields = $this->model->getFillable();
+        $this->searchableFields = $this->model->getFillable();
+        $this->includes = ['reservations'];
+    }
     
     public function getAll(): TableCollection {
-        return new TableCollection( Table::orderBy('id', 'desc')->get() );
+        $query = $this->model->newQuery();
+        $query = $this->applyFilters($query);
+        return new TableCollection( $this->applyPagination($query) );
     }
 
     public function getById(Table $table): TableResource {
-        return TableResource::make($table);
+        $query = $this->model->newQuery();
+        $query = $this->aplyOnlyIncludeFilter($query);
+        return TableResource::make( $query->findOrFail($table->id) );
     }
 
     public function store(array $data): TableResource {

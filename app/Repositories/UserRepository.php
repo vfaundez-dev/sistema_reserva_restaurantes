@@ -6,16 +6,31 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Traits\Filterable;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface {
+    use Filterable;
+
+    protected $model;
+
+    public function __construct() {
+        $this->model = new User();
+        $this->filterableFields = $this->model->getFillable();
+        $this->searchableFields = array_diff( $this->filterableFields, ['password'] );
+        $this->includes = ['reservations'];
+    }
 
     public function getAll(): UserCollection {
-        return new UserCollection( User::orderBy('id', 'desc')->get() );
+        $query = $this->model->newQuery();
+        $query = $this->applyFilters($query);
+        return new UserCollection( $this->applyPagination($query) );
     }
 
     public function getById(User $user): UserResource {
-        return UserResource::make($user);
+        $query = $this->model->newQuery();
+        $query = $this->aplyOnlyIncludeFilter($query);
+        return UserResource::make( $query->findOrFail($user->id) );
     }
 
     public function create(array $data): UserResource {
