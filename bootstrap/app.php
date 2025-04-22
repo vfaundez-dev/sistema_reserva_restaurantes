@@ -30,7 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 $previous = $e->getPrevious();
                 
                 if ($previous instanceof ModelNotFoundException) {
-                    $modelName = class_basename($previous->getModel());
+                    $modelName = class_basename( $previous->getModel() );
                     return response()->json([
                         'success' => false,
                         'message' => "$modelName not found",

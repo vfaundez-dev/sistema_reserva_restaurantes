@@ -37,7 +37,7 @@ class AuthController extends Controller {
             return ApiResponse::success($newUser, 'User registered successfully');
 
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
-            return ApiResponse::exception($e, 'Error logged in');
+            return ApiResponse::exception($e, 'Failed to register user');
         } catch (Throwable $e) {
             return ApiResponse::exception($e, 'Failed to register user');
         }
