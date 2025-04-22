@@ -329,8 +329,6 @@ Todos los errores y excepciones en esta API REST son devueltos en un formato con
 
 ### 🔎 Recurso no encontrado (ModelNotFoundException)
 ```json
-GET /api/users/999
-
 {
   "success": false,
   "message": "User not found",
@@ -340,8 +338,6 @@ GET /api/users/999
 
 ### 🚫 Ruta no encontrada (NotFoundHttpException)
 ```json
-GET /api/wrong-endpoint
-
 {
   "success": false,
   "message": "Endpoint not found",
@@ -351,9 +347,6 @@ GET /api/wrong-endpoint
 
 ### 🛑 Acción no autorizada (AccessDeniedHttpException)
 ```json
-DELETE /api/tasks/1
-Authorization: Bearer token_sin_permisos
-
 {
   "success": false,
   "message": "Unauthorized action!",
