@@ -319,6 +319,141 @@
                     }
                 },
                 "type": "object"
+            },
+            "Customer": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@mail.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+56912345678"
+                    },
+                    "registration_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Table": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_available": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "capacity": {
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "indoor"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Reservation": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "reservation_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-05-15"
+                    },
+                    "reservation_time": {
+                        "type": "string",
+                        "format": "time",
+                        "example": "20:00:00"
+                    },
+                    "number_of_peoples": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Table near the window"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Administrador"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "admin@reservation.com"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
