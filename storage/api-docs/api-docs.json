@@ -7,325 +7,44 @@
             "name": "Vladimir Faundez",
             "email": "v.faundezh@gmail.com"
         },
+        "license": {
+            "name": "Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International",
+            "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode"
+        },
         "version": "1.0.0"
     },
     "servers": [
         {
             "url": "http://localhost:8000",
-            "description": "Servidor API"
+            "description": "Servidor principal de la API"
         }
     ],
     "paths": {
-        "/api/v1/auth/login": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Login user",
-                "operationId": "loginUser",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "example": "admin@reservation.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": "asdf1234"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Login successful, returns JWT token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized - Invalid credentials",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/auth/register": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Register a new user",
-                "operationId": "registerUser",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "email",
-                                    "password",
-                                    "role"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "John Doe"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "example": "user@reservation.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": "asdf1234"
-                                    },
-                                    "role": {
-                                        "type": "string",
-                                        "example": "receptionist"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "User registered successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/auth/me": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Get authenticated user",
-                "operationId": "getAuthenticatedUser",
-                "responses": {
-                    "200": {
-                        "description": "Authenticated user data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/auth/refresh": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Refresh JWT token",
-                "operationId": "refreshToken",
-                "responses": {
-                    "200": {
-                        "description": "Token refreshed successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/auth/logout": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Logout user",
-                "operationId": "logoutUser",
-                "responses": {
-                    "200": {
-                        "description": "Successfully logged out",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/api/v1/customers": {
             "get": {
                 "tags": [
                     "Customers"
                 ],
                 "summary": "Get all customers",
+                "description": "Retrieve a list of all customers.",
                 "operationId": "getAllCustomers",
                 "responses": {
                     "200": {
-                        "description": "List of customers",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/CustomerSuccess"
                     },
                     "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
                     },
                     "500": {
-                        "description": "Failed to retrieve customers",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/ServerError"
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ]
             },
@@ -334,58 +53,48 @@
                     "Customers"
                 ],
                 "summary": "Create a new customer",
-                "operationId": "createCustomer",
+                "description": "Store a new customer in the system.",
+                "operationId": "storeCustomer",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreCustomerRequest"
+                },
                 "responses": {
                     "201": {
-                        "description": "Customer created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/CustomerSuccess"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/InvalidRequest"
                     },
                     "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
                     },
                     "500": {
-                        "description": "Failed to create customer",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/ServerError"
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ]
             }
         },
-        "/api/v1/customers/{id}": {
+        "/api/v1/customers/{customer}": {
             "get": {
                 "tags": [
                     "Customers"
                 ],
-                "summary": "Get customer by ID",
+                "summary": "Get a customer by ID",
+                "description": "Retrieve a specific customer by their ID.",
                 "operationId": "getCustomerById",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customer",
                         "in": "path",
-                        "description": "Customer ID",
+                        "description": "ID of the customer to retrieve",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -394,104 +103,24 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Customer retrieved successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/CustomerSuccess"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
                     },
                     "404": {
-                        "description": "Customer not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/NotFoundError"
                     },
                     "500": {
-                        "description": "Failed to retrieve customer",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/ServerError"
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Customers"
-                ],
-                "summary": "Update an existing customer",
-                "operationId": "updateCustomer",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Customer ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Customer updated successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to update customer",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
+                        "BearerAuth": []
                     }
                 ]
             },
@@ -500,12 +129,13 @@
                     "Customers"
                 ],
                 "summary": "Delete a customer",
+                "description": "Remove a specific customer from the system.",
                 "operationId": "deleteCustomer",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customer",
                         "in": "path",
-                        "description": "Customer ID",
+                        "description": "ID of the customer to delete",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -513,40 +143,72 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Customer deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessResponse"
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "Customer deleted successfully"
                     },
                     "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
                     },
                     "500": {
-                        "description": "Failed to delete customer",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/ServerError"
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Update a customer",
+                "description": "Update an existing customer in the system.",
+                "operationId": "updateCustomer",
+                "parameters": [
+                    {
+                        "name": "customer",
+                        "in": "path",
+                        "description": "ID of the customer to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateCustomerRequest"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/CustomerSuccess"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/InvalidRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
                     }
                 ]
             }
@@ -554,39 +216,6 @@
     },
     "components": {
         "schemas": {
-            "SuccessResponse": {
-                "properties": {
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "message": {
-                        "type": "string",
-                        "example": "Operation successful"
-                    },
-                    "data": {
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "ErrorResponse": {
-                "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "message": {
-                        "type": "string",
-                        "example": "Operation failed"
-                    },
-                    "data": {
-                        "type": "string",
-                        "example": null
-                    }
-                },
-                "type": "object"
-            },
             "Customer": {
                 "properties": {
                     "id": {
@@ -609,133 +238,374 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2024-01-01T12:00:00Z"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-01-01T12:00:00Z"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-01-01T12:00:00Z"
                     }
                 },
                 "type": "object"
             },
-            "Table": {
+            "SuccessResponse": {
+                "required": [
+                    "status",
+                    "message",
+                    "data"
+                ],
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "is_available": {
+                    "status": {
                         "type": "boolean",
                         "example": true
                     },
-                    "capacity": {
-                        "type": "integer",
-                        "example": 4
-                    },
-                    "location": {
+                    "message": {
                         "type": "string",
-                        "example": "indoor"
+                        "example": "Operation successful"
                     },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-01-01T12:00:00Z"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-01-01T12:00:00Z"
+                    "data": {
+                        "type": "object",
+                        "nullable": true
                     }
                 },
                 "type": "object"
             },
-            "Reservation": {
+            "ErrorResponse": {
+                "required": [
+                    "status",
+                    "message",
+                    "data"
+                ],
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "reservation_date": {
-                        "type": "string",
-                        "format": "date",
-                        "example": "2024-05-15"
-                    },
-                    "reservation_time": {
-                        "type": "string",
-                        "format": "time",
-                        "example": "20:00:00"
-                    },
-                    "number_of_peoples": {
-                        "type": "integer",
-                        "example": 10
-                    },
                     "status": {
-                        "type": "string",
-                        "example": "pending"
+                        "type": "boolean",
+                        "example": false
                     },
-                    "notes": {
+                    "message": {
                         "type": "string",
-                        "example": "Table near the window"
+                        "example": "Operation failed"
                     },
-                    "created_at": {
+                    "data": {
                         "type": "string",
-                        "format": "date-time",
-                        "example": "2024-01-01T12:00:00Z"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-01-01T12:00:00Z"
+                        "example": null,
+                        "nullable": true
                     }
                 },
                 "type": "object"
             },
-            "User": {
+            "UnauthenticatedResponse": {
+                "required": [
+                    "status",
+                    "message",
+                    "data"
+                ],
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
+                    "status": {
+                        "type": "boolean",
+                        "example": false
                     },
-                    "name": {
+                    "message": {
                         "type": "string",
-                        "example": "Administrador"
+                        "example": "Unauthenticated"
                     },
-                    "email": {
+                    "data": {
                         "type": "string",
-                        "example": "admin@reservation.com"
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "NotFoundResponse": {
+                "required": [
+                    "status",
+                    "message",
+                    "data"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
                     },
-                    "created_at": {
+                    "message": {
                         "type": "string",
-                        "format": "date-time",
-                        "example": "2024-01-01T12:00:00Z"
+                        "example": "Resource not found"
                     },
-                    "updated_at": {
+                    "data": {
                         "type": "string",
-                        "format": "date-time",
-                        "example": "2024-01-01T12:00:00Z"
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UnauthorizedResponse": {
+                "required": [
+                    "status",
+                    "message",
+                    "data"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Unauthorized"
+                    },
+                    "data": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "InvalidRequestResponse": {
+                "required": [
+                    "status",
+                    "message",
+                    "data"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Invalid request"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "field": {
+                                    "type": "string",
+                                    "example": "email"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "The email field is required."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ServerErrorResponse": {
+                "required": [
+                    "status",
+                    "message",
+                    "data"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Server error"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "error": {
+                                    "type": "string",
+                                    "example": "Internal server error"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
             }
         },
+        "responses": {
+            "CustomerSuccess": {
+                "description": "Successful customer operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Customer"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "InvalidRequest": {
+                "description": "Invalid request data",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid request"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "field": {
+                                                "description": "Field with validation error.",
+                                                "type": "string",
+                                                "example": "email"
+                                            },
+                                            "message": {
+                                                "description": "Validation error message.",
+                                                "type": "string",
+                                                "example": "The email field is required."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "NotFoundError": {
+                "description": "Customer not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/NotFoundResponse"
+                        }
+                    }
+                }
+            },
+            "UnauthenticatedError": {
+                "description": "Unauthenticated user",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/UnauthenticatedResponse"
+                        }
+                    }
+                }
+            },
+            "UnauthorizedError": {
+                "description": "Unauthorized action",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/UnauthorizedResponse"
+                        }
+                    }
+                }
+            },
+            "ServerError": {
+                "description": "Internal server error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "requestBodies": {
+            "StoreCustomerRequest": {
+                "description": "Data required to create a customer",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "email",
+                                "phone"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "John Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "johndoe@example.com"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": "+123456789"
+                                },
+                                "registrationDate": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "example": "2024-01-01T12:00:00Z"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateCustomerRequest": {
+                "description": "Data to update a customer",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "John Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "johndoe@example.com"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": "+123456789"
+                                },
+                                "registrationDate": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "example": "2024-01-01T12:00:00Z"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "securitySchemes": {
-            "bearerAuth": {
+            "BearerAuth": {
                 "type": "http",
+                "description": "JWT Authorization header usando el esquema Bearer.",
                 "bearerFormat": "JWT",
                 "scheme": "bearer"
             }
         }
     },
     "tags": [
-        {
-            "name": "Authentication",
-            "description": "Authentication"
-        },
         {
             "name": "Customers",
             "description": "Customers"

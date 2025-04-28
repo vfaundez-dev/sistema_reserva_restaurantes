@@ -6,11 +6,8 @@ use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ReservationCollection;
-use App\Http\Resources\ReservationResource;
 use App\Http\Responses\ApiResponse;
 use App\Repositories\Interfaces\ReservationRepositoryInterface;
-use App\Repositories\ReservationRepository;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -21,7 +18,7 @@ class ReservationController extends Controller {
     public function __construct(ReservationRepositoryInterface $reservationRepository) {
         $this->reservationRepository = $reservationRepository;
     }
-    
+
     public function index() {
         try {
             return ApiResponse::success( $this->reservationRepository->getAll() );
@@ -71,7 +68,7 @@ class ReservationController extends Controller {
             return ApiResponse::success(null, 'Reservation deleted successfully');
             
         } catch (Throwable $e) {
-            return ApiResponse::exception($e, 'Failed to delete table');
+            return ApiResponse::exception($e, 'Failed to delete reservation');
         }
     }
 
