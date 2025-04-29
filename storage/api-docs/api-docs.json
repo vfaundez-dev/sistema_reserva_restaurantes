@@ -28,6 +28,35 @@
                 "summary": "Get all customers",
                 "description": "Retrieve a list of all customers.",
                 "operationId": "getAllCustomers",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/SearchParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/CustomerSortByParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/SortDirParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateFromParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateToParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateFieldParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/CustomerIncludeParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PageParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PerPageParam"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/CustomerSuccess"
@@ -99,6 +128,9 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/CustomerIncludeParam"
                     }
                 ],
                 "responses": {
@@ -190,7 +222,7 @@
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "Customer deleted successfully"
                     },
                     "401": {
@@ -383,7 +415,7 @@
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "Reservation deleted successfully"
                     },
                     "401": {
@@ -662,7 +694,7 @@
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "Table deleted successfully"
                     },
                     "401": {
@@ -799,6 +831,285 @@
                     }
                 ]
             }
+        },
+        "/api/v1/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get all users",
+                "description": "Retrieve a list of all users",
+                "operationId": "getAllUsers",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/UserSuccess"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create a new user",
+                "description": "Store a new user in the system",
+                "operationId": "createUser",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreUserRequest"
+                },
+                "responses": {
+                    "201": {
+                        "$ref": "#/components/responses/UserSuccessId"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/UserInvalidRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{user}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get a user by ID",
+                "description": "Retrieve a user by their ID",
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/UserSuccessId"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update a user",
+                "description": "Update an existing user",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateUserRequest"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/UserSuccessId"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/UserInvalidRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete a user",
+                "description": "Delete a user by their ID",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/get-by-email": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get a user by email",
+                "description": "Retrieve a user by their email address",
+                "operationId": "getUserByEmail",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email of the user to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/UserSuccessId"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{user}/change-password": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Change user password",
+                "description": "Change the password of a user",
+                "operationId": "changeUserPassword",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to change password",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateUserRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password changed successfully"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/UserInvalidRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -885,6 +1196,30 @@
                     "location": {
                         "type": "string",
                         "example": "indoor"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@mail.com"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "recepcionist"
+                        }
                     }
                 },
                 "type": "object"
@@ -1363,6 +1698,218 @@
                         }
                     }
                 }
+            },
+            "UserSuccess": {
+                "description": "Successful user operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UserSuccessId": {
+                "description": "Successful user operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "data": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UserInvalidRequest": {
+                "description": "Invalid request data",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid request"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "field": {
+                                                "type": "string",
+                                                "example": "email"
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "example": "The email field is required."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "CustomerSortByParam": {
+                "name": "sort_by",
+                "in": "query",
+                "description": "Field to sort customers by.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": "id",
+                    "enum": [
+                        "id",
+                        "name",
+                        "email",
+                        "phone"
+                    ]
+                }
+            },
+            "CustomerIncludeParam": {
+                "name": "include",
+                "in": "query",
+                "description": "Comma-separated list of relationships to include.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "reservations"
+                }
+            },
+            "SearchParam": {
+                "name": "search",
+                "in": "query",
+                "description": "Search term for textual filtering.",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "SortByParam": {
+                "name": "sort_by",
+                "in": "query",
+                "description": "Field to sort by.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": "id",
+                    "enum": [
+                        "id",
+                        "name",
+                        "email",
+                        "date"
+                    ]
+                }
+            },
+            "SortDirParam": {
+                "name": "sort_dir",
+                "in": "query",
+                "description": "Sort direction.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": "asc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "DateFromParam": {
+                "name": "date_from",
+                "in": "query",
+                "description": "Filter records from this date (inclusive). Format: YYYY-MM-DD",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                }
+            },
+            "DateToParam": {
+                "name": "date_to",
+                "in": "query",
+                "description": "Filter records up to this date (inclusive). Format: YYYY-MM-DD",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                }
+            },
+            "DateFieldParam": {
+                "name": "date_field",
+                "in": "query",
+                "description": "Field to apply the date filter on.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": "created_at"
+                }
+            },
+            "IncludeParam": {
+                "name": "include",
+                "in": "query",
+                "description": "Comma-separated list of relationships to include.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "reservations,notes"
+                }
+            },
+            "PageParam": {
+                "name": "page",
+                "in": "query",
+                "description": "Current page number.",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 1
+                }
+            },
+            "PerPageParam": {
+                "name": "per_page",
+                "in": "query",
+                "description": "Number of records per page.",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 15
+                }
             }
         },
         "requestBodies": {
@@ -1495,6 +2042,41 @@
                     }
                 }
             },
+            "StoreUserRequest": {
+                "description": "Data required to store a user",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "email",
+                                "password",
+                                "role"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "John Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "john@mail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "Password_123"
+                                },
+                                "role": {
+                                    "type": "string",
+                                    "example": "receptionist"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "UpdateCustomerRequest": {
                 "description": "Data to update a customer",
                 "required": true,
@@ -1618,6 +2200,41 @@
                         }
                     }
                 }
+            },
+            "UpdateUserRequest": {
+                "description": "Data required to update a user",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "email",
+                                "password",
+                                "role"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "John Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "john@mail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "Password_123"
+                                },
+                                "role": {
+                                    "type": "string",
+                                    "example": "receptionist"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         },
         "securitySchemes": {
@@ -1641,6 +2258,10 @@
         {
             "name": "Tables",
             "description": "Tables"
+        },
+        {
+            "name": "User",
+            "description": "User"
         }
     ]
 }

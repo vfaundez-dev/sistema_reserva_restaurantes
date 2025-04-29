@@ -153,7 +153,7 @@ class ReservationController extends Controller {
      *         description="ID of the reservation to delete",
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\Response(response=204, description="Reservation deleted successfully"),
+     *     @OA\Response(response=200, description="Reservation deleted successfully"),
      *     @OA\Response(response=401, ref="#/components/responses/UnauthenticatedError"),
      *     @OA\Response(response=403, ref="#/components/responses/UnauthorizedError"),
      *     @OA\Response(response=404, ref="#/components/responses/NotFoundError"),
@@ -164,7 +164,7 @@ class ReservationController extends Controller {
         try {
 
             $this->reservationRepository->destroy($reservation);
-            return ApiResponse::success(null, 'Reservation deleted successfully', Response::HTTP_NO_CONTENT);
+            return ApiResponse::success(null, 'Reservation deleted successfully', Response::HTTP_OK);
             
         } catch (Throwable $e) {
             return ApiResponse::exception($e, 'Failed to delete reservation');

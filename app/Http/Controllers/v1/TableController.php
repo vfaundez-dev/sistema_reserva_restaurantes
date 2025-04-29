@@ -148,7 +148,7 @@ class TableController extends Controller {
      *         description="ID of the table to delete",
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\Response(response=204, description="Table deleted successfully"),
+     *     @OA\Response(response=200, description="Table deleted successfully"),
      *     @OA\Response(response=401, ref="#/components/responses/UnauthenticatedError"),
      *     @OA\Response(response=403, ref="#/components/responses/UnauthorizedError"),
      *     @OA\Response(response=404, ref="#/components/responses/NotFoundError"),
@@ -159,7 +159,7 @@ class TableController extends Controller {
         try {
 
             $this->tableRepository->destroy($table);
-            return ApiResponse::success(null, 'Table deleted successfully', Response::HTTP_NO_CONTENT);
+            return ApiResponse::success(null, 'Table deleted successfully', Response::HTTP_OK);
             
         } catch (Throwable $e) {
             return ApiResponse::exception($e, 'Failed to delete table');

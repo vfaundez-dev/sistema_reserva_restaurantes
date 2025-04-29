@@ -27,6 +27,15 @@ class CustomerController extends Controller {
      *     description="Retrieve a list of all customers.",
      *     operationId="getAllCustomers",
      *     security={{"BearerAuth": {}}},
+     *     @OA\Parameter(ref="#/components/parameters/SearchParam"),
+     *     @OA\Parameter(ref="#/components/parameters/CustomerSortByParam"),
+     *     @OA\Parameter(ref="#/components/parameters/SortDirParam"),
+     *     @OA\Parameter(ref="#/components/parameters/DateFromParam"),
+     *     @OA\Parameter(ref="#/components/parameters/DateToParam"),
+     *     @OA\Parameter(ref="#/components/parameters/DateFieldParam"),
+     *     @OA\Parameter(ref="#/components/parameters/CustomerIncludeParam"),
+     *     @OA\Parameter(ref="#/components/parameters/PageParam"),
+     *     @OA\Parameter(ref="#/components/parameters/PerPageParam"),
      *     @OA\Response(response=200, ref="#/components/responses/CustomerSuccess"),
      *     @OA\Response(response=401, ref="#/components/responses/UnauthenticatedError"),
      *     @OA\Response(response=403, ref="#/components/responses/UnauthorizedError"),
@@ -81,6 +90,7 @@ class CustomerController extends Controller {
      *         description="ID of the customer to retrieve",
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(ref="#/components/parameters/CustomerIncludeParam"),
      *     @OA\Response(response=200, ref="#/components/responses/CustomerSuccessId"),
      *     @OA\Response(response=401, ref="#/components/responses/UnauthenticatedError"),
      *     @OA\Response(response=403, ref="#/components/responses/UnauthorizedError"),
@@ -144,7 +154,7 @@ class CustomerController extends Controller {
      *         description="ID of the customer to delete",
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\Response(response=204, description="Customer deleted successfully"),
+     *     @OA\Response(response=200, description="Customer deleted successfully"),
      *     @OA\Response(response=401, ref="#/components/responses/UnauthenticatedError"),
      *     @OA\Response(response=403, ref="#/components/responses/UnauthorizedError"),
      *     @OA\Response(response=404, ref="#/components/responses/NotFoundError"),
@@ -154,7 +164,7 @@ class CustomerController extends Controller {
     public function destroy(Customer $customer) {
         try {
             $this->customerRepository->destroy($customer);
-            return ApiResponse::success(null, 'Customer deleted successfully', Response::HTTP_NO_CONTENT);
+            return ApiResponse::success(null, 'Customer deleted successfully', Response::HTTP_OK);
         } catch (Throwable $e) {
             return ApiResponse::exception($e, 'Failed to delete customer');
         }
