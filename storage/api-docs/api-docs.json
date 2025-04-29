@@ -909,6 +909,35 @@
                 "summary": "Get all users",
                 "description": "Retrieve a list of all users",
                 "operationId": "getAllUsers",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/SearchParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/UserSortByParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/SortDirParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateFromParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateToParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateFieldParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/UserIncludeParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PageParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PerPageParam"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/UserSuccess"
@@ -983,6 +1012,9 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/UserIncludeParam"
                     }
                 ],
                 "responses": {
@@ -1111,6 +1143,9 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/UserIncludeParam"
                     }
                 ],
                 "responses": {
@@ -2025,6 +2060,31 @@
                 }
             },
             "TableIncludeParam": {
+                "name": "include",
+                "in": "query",
+                "description": "Comma-separated list of relationships to include.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "reservations"
+                }
+            },
+            "UserSortByParam": {
+                "name": "sort_by",
+                "in": "query",
+                "description": "Field to sort users by.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": "id",
+                    "enum": [
+                        "id",
+                        "name",
+                        "email"
+                    ]
+                }
+            },
+            "UserIncludeParam": {
                 "name": "include",
                 "in": "query",
                 "description": "Comma-separated list of relationships to include.",

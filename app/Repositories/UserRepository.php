@@ -106,7 +106,10 @@ class UserRepository implements UserRepositoryInterface {
     public function getByEmail(string $email): ?UserResource {
         $user = User::where('email', $email)->first();
         if (!$user) return null;
-        return UserResource::make( $user );
+
+        $query = $this->model->newQuery();
+        $query = $this->aplyOnlyIncludeFilter($query);
+        return UserResource::make( $query->findOrFail($user->id) );
     }
 
     public function changePassword(User $user, string $password):bool {
