@@ -353,6 +353,9 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/ReservationIncludeParam"
                     }
                 ],
                 "responses": {
@@ -561,6 +564,35 @@
                 "summary": "Get all tables",
                 "description": "Retrieve a list of all tables.",
                 "operationId": "getAllTable",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/SearchParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/TableSortByParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/SortDirParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateFromParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateToParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateFieldParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/TableIncludeParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PageParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PerPageParam"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/TableSuccess"
@@ -632,6 +664,9 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/TableIncludeParam"
                     }
                 ],
                 "responses": {
@@ -754,6 +789,11 @@
                 "summary": "Get available tables",
                 "description": "Retrieve a list of available tables.",
                 "operationId": "getAvailableTables",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TableIncludeParam"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/TableSuccess"
@@ -1966,6 +2006,32 @@
                 "schema": {
                     "type": "string",
                     "example": "customer,tables,user"
+                }
+            },
+            "TableSortByParam": {
+                "name": "sort_by",
+                "in": "query",
+                "description": "Field to sort tables by.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": "id",
+                    "enum": [
+                        "id",
+                        "is_available",
+                        "capacity",
+                        "location"
+                    ]
+                }
+            },
+            "TableIncludeParam": {
+                "name": "include",
+                "in": "query",
+                "description": "Comma-separated list of relationships to include.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "reservations"
                 }
             }
         },
