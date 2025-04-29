@@ -253,6 +253,35 @@
                 "summary": "Get all reservation",
                 "description": "Retrieve a list of all reservations.",
                 "operationId": "getAllReservations",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/SearchParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ReservationSortByParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/SortDirParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateFromParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateToParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DateFieldParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ReservationIncludeParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PageParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PerPageParam"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/ReservationSuccess"
@@ -1909,6 +1938,34 @@
                 "schema": {
                     "type": "integer",
                     "default": 15
+                }
+            },
+            "ReservationSortByParam": {
+                "name": "sort_by",
+                "in": "query",
+                "description": "Field to sort reservations by.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": "id",
+                    "enum": [
+                        "id",
+                        "number_of_peoples",
+                        "status",
+                        "notes",
+                        "customer_id",
+                        "user_id"
+                    ]
+                }
+            },
+            "ReservationIncludeParam": {
+                "name": "include",
+                "in": "query",
+                "description": "Comma-separated list of relationships to include.",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "example": "customer,tables,user"
                 }
             }
         },

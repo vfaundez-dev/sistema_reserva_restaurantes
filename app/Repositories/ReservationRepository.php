@@ -24,7 +24,7 @@ class ReservationRepository implements ReservationRepositoryInterface {
         $this->model = new Reservation();
         $this->tableRepository = $tableRepository;
         $this->filterableFields = $this->model->getFillable();
-        $this->searchableFields = array_diff( $this->filterableFields, ['reservation_date'] );
+        $this->searchableFields = array_diff( $this->filterableFields, ['reservation_date', 'reservation_time'] );
         $this->includes = ['customer', 'user', 'tables'];
     }
     
