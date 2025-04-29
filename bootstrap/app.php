@@ -7,6 +7,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -55,6 +56,19 @@ return Application::configure(basePath: dirname(__DIR__))
                         'error' => $e->getMessage(),
                     ]
                 ], 403);
+            }
+        });
+
+        $exceptions->render(function (MethodNotAllowedHttpException $e, Request $request) {
+            if ($request->wantsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Method not allowed',
+                    'data' => [
+                        'error' => $e->getMessage(),
+                        'allowed_methods' => $e->getHeaders()['Allow'] ?? []
+                    ]
+                ], 405);
             }
         });
 
