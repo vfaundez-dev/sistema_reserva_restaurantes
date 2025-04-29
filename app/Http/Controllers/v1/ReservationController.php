@@ -25,7 +25,7 @@ class ReservationController extends Controller {
      *     path="/api/v1/reservations",
      *     tags={"Reservations"},
      *     summary="Get all reservation",
-     *     description="Retrieve a list of all reservation.",
+     *     description="Retrieve a list of all reservations.",
      *     operationId="getAllReservations",
      *     security={{"BearerAuth": {}}},
      *     @OA\Response(response=200, ref="#/components/responses/ReservationSuccess"),

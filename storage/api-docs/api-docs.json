@@ -219,7 +219,7 @@
                     "Reservations"
                 ],
                 "summary": "Get all reservation",
-                "description": "Retrieve a list of all reservation.",
+                "description": "Retrieve a list of all reservations.",
                 "operationId": "getAllReservations",
                 "responses": {
                     "200": {
@@ -491,6 +491,314 @@
                     }
                 ]
             }
+        },
+        "/api/v1/tables": {
+            "get": {
+                "tags": [
+                    "Tables"
+                ],
+                "summary": "Get all tables",
+                "description": "Retrieve a list of all tables.",
+                "operationId": "getAllTable",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/TableSuccess"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Tables"
+                ],
+                "summary": "Create a new table",
+                "description": "Create a new table.",
+                "operationId": "createTable",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreTableRequest"
+                },
+                "responses": {
+                    "201": {
+                        "$ref": "#/components/responses/TableSuccessId"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/TableInvalidRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tables/{table}": {
+            "get": {
+                "tags": [
+                    "Tables"
+                ],
+                "summary": "Get a table by ID",
+                "description": "Retrieve a table by its ID.",
+                "operationId": "getTableById",
+                "parameters": [
+                    {
+                        "name": "table",
+                        "in": "path",
+                        "description": "ID of the table to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/TableSuccessId"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Tables"
+                ],
+                "summary": "Update a table",
+                "description": "Update a table by its ID.",
+                "operationId": "updateTable",
+                "parameters": [
+                    {
+                        "name": "table",
+                        "in": "path",
+                        "description": "ID of the table to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateTableRequest"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/TableSuccessId"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/TableInvalidRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Tables"
+                ],
+                "summary": "Delete a table",
+                "description": "Delete a table by its ID.",
+                "operationId": "deleteTable",
+                "parameters": [
+                    {
+                        "name": "table",
+                        "in": "path",
+                        "description": "ID of the table to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Table deleted successfully"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tables/availables": {
+            "get": {
+                "tags": [
+                    "Tables"
+                ],
+                "summary": "Get available tables",
+                "description": "Retrieve a list of available tables.",
+                "operationId": "getAvailableTables",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/TableSuccess"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tables/{table}/release": {
+            "patch": {
+                "tags": [
+                    "Tables"
+                ],
+                "summary": "Release a table",
+                "description": "Release a table by its ID.",
+                "operationId": "releaseTable",
+                "parameters": [
+                    {
+                        "name": "table",
+                        "in": "path",
+                        "description": "ID of the table to release",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Table released successfully"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tables/{table}/occupied": {
+            "patch": {
+                "tags": [
+                    "Tables"
+                ],
+                "summary": "Occupied a table",
+                "description": "Occupied a table by its ID.",
+                "operationId": "occupiedTable",
+                "parameters": [
+                    {
+                        "name": "table",
+                        "in": "path",
+                        "description": "ID of the table to occupied",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Table occupied successfully"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -556,6 +864,27 @@
                     "user_id": {
                         "type": "integer",
                         "example": 2
+                    }
+                },
+                "type": "object"
+            },
+            "Table": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_available": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "capacity": {
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "indoor"
                     }
                 },
                 "type": "object"
@@ -892,7 +1221,7 @@
                 }
             },
             "ReservationSuccessId": {
-                "description": "Successful customer operation",
+                "description": "Successful reservation operation",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -906,7 +1235,7 @@
                                     "example": ""
                                 },
                                 "data": {
-                                    "$ref": "#/components/schemas/Customer"
+                                    "$ref": "#/components/schemas/Reservation"
                                 }
                             },
                             "type": "object"
@@ -939,6 +1268,91 @@
                                             "message": {
                                                 "type": "string",
                                                 "example": "The name field is required."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "TableSuccess": {
+                "description": "Successful table operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Table"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "TableSuccessId": {
+                "description": "Successful table operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "data": {
+                                    "$ref": "#/components/schemas/Table"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "TableInvalidRequest": {
+                "description": "Invalid request data",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid request"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "field": {
+                                                "type": "string",
+                                                "example": "status"
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "example": "The status field is required."
                                             }
                                         },
                                         "type": "object"
@@ -1051,6 +1465,36 @@
                     }
                 }
             },
+            "StoreTableRequest": {
+                "description": "Data required to store a table",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "is_available",
+                                "capacity",
+                                "location"
+                            ],
+                            "properties": {
+                                "is_available": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "capacity": {
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "location": {
+                                    "type": "string",
+                                    "example": "indoor"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "UpdateCustomerRequest": {
                 "description": "Data to update a customer",
                 "required": true,
@@ -1144,6 +1588,36 @@
                         }
                     }
                 }
+            },
+            "UpdateTableRequest": {
+                "description": "Data required to update a table",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "is_available",
+                                "capacity",
+                                "location"
+                            ],
+                            "properties": {
+                                "is_available": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "capacity": {
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "location": {
+                                    "type": "string",
+                                    "example": "indoor"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         },
         "securitySchemes": {
@@ -1163,6 +1637,10 @@
         {
             "name": "Reservations",
             "description": "Reservations"
+        },
+        {
+            "name": "Tables",
+            "description": "Tables"
         }
     ]
 }
