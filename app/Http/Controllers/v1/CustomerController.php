@@ -50,8 +50,8 @@ class CustomerController extends Controller {
      *     operationId="storeCustomer",
      *     security={{"BearerAuth": {}}},
      *     @OA\RequestBody(ref="#/components/requestBodies/StoreCustomerRequest"),
-     *     @OA\Response(response=201, ref="#/components/responses/CustomerSuccess"),
-     *     @OA\Response(response=400, ref="#/components/responses/InvalidRequest"),
+     *     @OA\Response(response=201, ref="#/components/responses/CustomerSuccessId"),
+     *     @OA\Response(response=400, ref="#/components/responses/CustomerInvalidRequest"),
      *     @OA\Response(response=401, ref="#/components/responses/UnauthenticatedError"),
      *     @OA\Response(response=403, ref="#/components/responses/UnauthorizedError"),
      *     @OA\Response(response=500, ref="#/components/responses/ServerError")
@@ -81,7 +81,7 @@ class CustomerController extends Controller {
      *         description="ID of the customer to retrieve",
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\Response(response=200, ref="#/components/responses/CustomerSuccess"),
+     *     @OA\Response(response=200, ref="#/components/responses/CustomerSuccessId"),
      *     @OA\Response(response=401, ref="#/components/responses/UnauthenticatedError"),
      *     @OA\Response(response=403, ref="#/components/responses/UnauthorizedError"),
      *     @OA\Response(response=404, ref="#/components/responses/NotFoundError"),
@@ -97,7 +97,7 @@ class CustomerController extends Controller {
     }
 
     /**
-     * @OA\Patch(
+     * @OA\Put(
      *     path="/api/v1/customers/{customer}",
      *     tags={"Customers"},
      *     summary="Update a customer",
@@ -112,8 +112,8 @@ class CustomerController extends Controller {
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(ref="#/components/requestBodies/UpdateCustomerRequest"),
-     *     @OA\Response(response=200, ref="#/components/responses/CustomerSuccess"),
-     *     @OA\Response(response=400, ref="#/components/responses/InvalidRequest"),
+     *     @OA\Response(response=200, ref="#/components/responses/CustomerSuccessId"),
+     *     @OA\Response(response=400, ref="#/components/responses/CustomerInvalidRequest"),
      *     @OA\Response(response=401, ref="#/components/responses/UnauthenticatedError"),
      *     @OA\Response(response=403, ref="#/components/responses/UnauthorizedError"),
      *     @OA\Response(response=404, ref="#/components/responses/NotFoundError"),

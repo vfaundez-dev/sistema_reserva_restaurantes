@@ -2,7 +2,7 @@
 
 namespace App\Swagger\Schemas;
 
-  /**
+/**
   * @OA\Schema(
   *     schema="Customer",
   *     type="object",
@@ -12,5 +12,5 @@ namespace App\Swagger\Schemas;
   *     @OA\Property(property="phone", type="string", example="+56912345678"),
   *     @OA\Property(property="registration_date", type="string", format="date-time", example="2024-01-01T12:00:00Z")
   * ),
-  */
-  class CustomerSchema{}
+*/
+class CustomerSchema{}

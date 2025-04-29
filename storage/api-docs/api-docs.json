@@ -60,10 +60,10 @@
                 },
                 "responses": {
                     "201": {
-                        "$ref": "#/components/responses/CustomerSuccess"
+                        "$ref": "#/components/responses/CustomerSuccessId"
                     },
                     "400": {
-                        "$ref": "#/components/responses/InvalidRequest"
+                        "$ref": "#/components/responses/CustomerInvalidRequest"
                     },
                     "401": {
                         "$ref": "#/components/responses/UnauthenticatedError"
@@ -103,7 +103,54 @@
                 ],
                 "responses": {
                     "200": {
-                        "$ref": "#/components/responses/CustomerSuccess"
+                        "$ref": "#/components/responses/CustomerSuccessId"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Update a customer",
+                "description": "Update an existing customer in the system.",
+                "operationId": "updateCustomer",
+                "parameters": [
+                    {
+                        "name": "customer",
+                        "in": "path",
+                        "description": "ID of the customer to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateCustomerRequest"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/CustomerSuccessId"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/CustomerInvalidRequest"
                     },
                     "401": {
                         "$ref": "#/components/responses/UnauthenticatedError"
@@ -164,19 +211,124 @@
                         "BearerAuth": []
                     }
                 ]
-            },
-            "patch": {
+            }
+        },
+        "/api/v1/reservations": {
+            "get": {
                 "tags": [
-                    "Customers"
+                    "Reservations"
                 ],
-                "summary": "Update a customer",
-                "description": "Update an existing customer in the system.",
-                "operationId": "updateCustomer",
+                "summary": "Get all reservation",
+                "description": "Retrieve a list of all reservation.",
+                "operationId": "getAllReservations",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ReservationSuccess"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Reservations"
+                ],
+                "summary": "Create a new reservation",
+                "description": "Store a new reservation in the system.",
+                "operationId": "storeReservation",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreReservationRequest"
+                },
+                "responses": {
+                    "201": {
+                        "$ref": "#/components/responses/ReservationSuccess"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ReservationInvalidRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/reservations/{reservation}": {
+            "get": {
+                "tags": [
+                    "Reservations"
+                ],
+                "summary": "Get a reservation by ID",
+                "description": "Retrieve a specific reservation by its ID.",
+                "operationId": "getReservationById",
                 "parameters": [
                     {
-                        "name": "customer",
+                        "name": "reservation",
                         "in": "path",
-                        "description": "ID of the customer to update",
+                        "description": "ID of the reservation to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ReservationSuccessId"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Reservations"
+                ],
+                "summary": "Update a reservation",
+                "description": "Update an existing reservation in the system.",
+                "operationId": "updateReservation",
+                "parameters": [
+                    {
+                        "name": "reservation",
+                        "in": "path",
+                        "description": "ID of the reservation to update",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -184,14 +336,141 @@
                     }
                 ],
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/UpdateCustomerRequest"
+                    "$ref": "#/components/requestBodies/UpdateReservationRequest"
                 },
                 "responses": {
                     "200": {
-                        "$ref": "#/components/responses/CustomerSuccess"
+                        "$ref": "#/components/responses/ReservationSuccessId"
                     },
                     "400": {
-                        "$ref": "#/components/responses/InvalidRequest"
+                        "$ref": "#/components/responses/ReservationInvalidRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Reservations"
+                ],
+                "summary": "Delete a reservation",
+                "description": "Delete a specific reservation by its ID.",
+                "operationId": "deleteReservation",
+                "parameters": [
+                    {
+                        "name": "reservation",
+                        "in": "path",
+                        "description": "ID of the reservation to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Reservation deleted successfully"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/reservations/{reservation}/completed": {
+            "patch": {
+                "tags": [
+                    "Reservations"
+                ],
+                "summary": "Complete a reservation",
+                "description": "Mark a specific reservation as completed.",
+                "operationId": "completeReservation",
+                "parameters": [
+                    {
+                        "name": "reservation",
+                        "in": "path",
+                        "description": "ID of the reservation to complete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reservation completed successfully"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthenticatedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/reservations/{reservation}/cancelled": {
+            "patch": {
+                "tags": [
+                    "Reservations"
+                ],
+                "summary": "Cancel a reservation",
+                "description": "Mark a specific reservation as cancelled.",
+                "operationId": "cancelReservation",
+                "parameters": [
+                    {
+                        "name": "reservation",
+                        "in": "path",
+                        "description": "ID of the reservation to cancel",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reservation cancelled successfully"
                     },
                     "401": {
                         "$ref": "#/components/responses/UnauthenticatedError"
@@ -238,6 +517,45 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2024-01-01T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Reservation": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "reservation_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01"
+                    },
+                    "reservation_time": {
+                        "type": "string",
+                        "format": "time",
+                        "example": "12:00"
+                    },
+                    "number_of_people": {
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "confirmed"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Family dinner"
+                    },
+                    "customer_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 2
                     }
                 },
                 "type": "object"
@@ -448,7 +766,30 @@
                     }
                 }
             },
-            "InvalidRequest": {
+            "CustomerSuccessId": {
+                "description": "Successful customer operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "data": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CustomerInvalidRequest": {
                 "description": "Invalid request data",
                 "content": {
                     "application/json": {
@@ -467,12 +808,10 @@
                                     "items": {
                                         "properties": {
                                             "field": {
-                                                "description": "Field with validation error.",
                                                 "type": "string",
                                                 "example": "email"
                                             },
                                             "message": {
-                                                "description": "Validation error message.",
                                                 "type": "string",
                                                 "example": "The email field is required."
                                             }
@@ -487,7 +826,7 @@
                 }
             },
             "NotFoundError": {
-                "description": "Customer not found",
+                "description": "Reservation not found",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -522,6 +861,91 @@
                     "application/json": {
                         "schema": {
                             "$ref": "#/components/schemas/ServerErrorResponse"
+                        }
+                    }
+                }
+            },
+            "ReservationSuccess": {
+                "description": "Successful reservation operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Reservation"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ReservationSuccessId": {
+                "description": "Successful customer operation",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "data": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ReservationInvalidRequest": {
+                "description": "Invalid request data",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid request"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "field": {
+                                                "type": "string",
+                                                "example": "name"
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "example": "The name field is required."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
                         }
                     }
                 }
@@ -564,6 +988,69 @@
                     }
                 }
             },
+            "StoreReservationRequest": {
+                "description": "Data required to create a reservation",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "reservation_date",
+                                "reservation_time",
+                                "number_of_people",
+                                "status",
+                                "notes",
+                                "customer_id",
+                                "user_id",
+                                "tables"
+                            ],
+                            "properties": {
+                                "reservation_date": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2024-01-01"
+                                },
+                                "reservation_time": {
+                                    "type": "string",
+                                    "format": "time",
+                                    "example": "12:00"
+                                },
+                                "number_of_people": {
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "confirmed"
+                                },
+                                "notes": {
+                                    "type": "string",
+                                    "example": "Family dinner"
+                                },
+                                "customer_id": {
+                                    "type": "integer",
+                                    "example": 3
+                                },
+                                "user_id": {
+                                    "type": "integer",
+                                    "example": 2
+                                },
+                                "tables": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    },
+                                    "example": [
+                                        1,
+                                        2
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "UpdateCustomerRequest": {
                 "description": "Data to update a customer",
                 "required": true,
@@ -594,6 +1081,69 @@
                         }
                     }
                 }
+            },
+            "UpdateReservationRequest": {
+                "description": "Data required to update a reservation",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "reservation_date",
+                                "reservation_time",
+                                "number_of_people",
+                                "status",
+                                "notes",
+                                "customer_id",
+                                "user_id",
+                                "tables"
+                            ],
+                            "properties": {
+                                "reservation_date": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2024-01-01"
+                                },
+                                "reservation_time": {
+                                    "type": "string",
+                                    "format": "time",
+                                    "example": "12:00"
+                                },
+                                "number_of_people": {
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "confirmed"
+                                },
+                                "notes": {
+                                    "type": "string",
+                                    "example": "Family dinner"
+                                },
+                                "customer_id": {
+                                    "type": "integer",
+                                    "example": 3
+                                },
+                                "user_id": {
+                                    "type": "integer",
+                                    "example": 2
+                                },
+                                "tables": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    },
+                                    "example": [
+                                        1,
+                                        2
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         },
         "securitySchemes": {
@@ -609,6 +1159,10 @@
         {
             "name": "Customers",
             "description": "Customers"
+        },
+        {
+            "name": "Reservations",
+            "description": "Reservations"
         }
     ]
 }
