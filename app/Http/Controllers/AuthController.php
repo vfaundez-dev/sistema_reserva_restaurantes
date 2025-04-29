@@ -30,8 +30,8 @@ class AuthController extends Controller {
      *         required=true,
      *         @OA\JsonContent(
      *             required={"email", "password"},
-     *             @OA\Property(property="email", type="string", format="email", example="user1@reservation.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="Password_1234")
+     *             @OA\Property(property="email", type="string", format="email", example="admin@reservation.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="asdf1234")
      *         )
      *     ),
      *     @OA\Response(
@@ -72,6 +72,7 @@ class AuthController extends Controller {
      *     tags={"Authentication"},
      *     summary="User registration",
      *     operationId="registerUser",
+     *     security={{"BearerAuth": {}}},
      *     @OA\RequestBody(ref="#/components/requestBodies/StoreUserRequest"),
      *     @OA\Response(
      *         response=201,
@@ -108,6 +109,7 @@ class AuthController extends Controller {
      *     tags={"Authentication"},
      *     summary="Get authenticated user",
      *     operationId="getAuthenticatedUser",
+     *     security={{"BearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Authenticated user data",
@@ -142,6 +144,7 @@ class AuthController extends Controller {
      *     tags={"Authentication"},
      *     summary="Refresh JWT token",
      *     operationId="refreshToken",
+     *     security={{"BearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Token refreshed successfully",
@@ -179,6 +182,7 @@ class AuthController extends Controller {
      *     tags={"Authentication"},
      *     summary="User logout",
      *     operationId="logoutUser",
+     *     security={{"BearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Successfully logged out",

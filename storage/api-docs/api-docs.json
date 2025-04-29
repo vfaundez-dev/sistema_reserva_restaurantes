@@ -40,12 +40,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "user1@reservation.com"
+                                        "example": "admin@reservation.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "Password_1234"
+                                        "example": "asdf1234"
                                     }
                                 },
                                 "type": "object"
@@ -147,7 +147,12 @@
                     "500": {
                         "$ref": "#/components/responses/ServerError"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/auth/me": {
@@ -193,7 +198,12 @@
                     "500": {
                         "$ref": "#/components/responses/ServerError"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/auth/refresh": {
@@ -254,7 +264,12 @@
                     "500": {
                         "$ref": "#/components/responses/ServerError"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/auth/logout": {
@@ -302,7 +317,12 @@
                     "500": {
                         "$ref": "#/components/responses/ServerError"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/customers": {
@@ -1787,6 +1807,40 @@
                             },
                             "type": "object"
                         }
+                    }
+                },
+                "type": "object"
+            },
+            "MethodNotAllowedResponse": {
+                "required": [
+                    "status",
+                    "message",
+                    "data"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Method not allowed"
+                    },
+                    "data": {
+                        "properties": {
+                            "error": {
+                                "type": "string",
+                                "example": "The POST method is not supported for this route. Supported methods: GET."
+                            },
+                            "allowed_methods": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "GET"
+                                }
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
