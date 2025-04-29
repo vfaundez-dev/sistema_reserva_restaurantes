@@ -80,5 +80,24 @@ namespace App\Swagger;
  *        )
  *    )
  * )
+ * 
+ * @OA\Schema(
+ *     schema="MethodNotAllowedResponse",
+ *     type="object",
+ *     required={"status", "message", "data"},
+ *     @OA\Property(property="status", type="boolean", example=false),
+ *     @OA\Property(property="message", type="string", example="Method not allowed"),
+ *     @OA\Property(
+ *         property="data",
+ *         type="object",
+ *         @OA\Property(property="error", type="string", example="The POST method is not supported for this route. Supported methods: GET."),
+ *         @OA\Property(
+ *             property="allowed_methods",
+ *             type="array",
+ *             @OA\Items(type="string", example="GET")
+ *         )
+ *     )
+ * )
+ * 
  */
 class SwaggerResponses {}
