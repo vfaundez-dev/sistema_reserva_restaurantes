@@ -2498,7 +2498,7 @@
                                     "format": "time",
                                     "example": "12:00"
                                 },
-                                "number_of_people": {
+                                "number_of_peoples": {
                                     "type": "integer",
                                     "example": 4
                                 },
@@ -2657,7 +2657,7 @@
                                     "format": "time",
                                     "example": "12:00"
                                 },
-                                "number_of_people": {
+                                "number_of_peoples": {
                                     "type": "integer",
                                     "example": 4
                                 },

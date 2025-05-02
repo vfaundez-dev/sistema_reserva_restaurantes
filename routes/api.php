@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->middleware('api')->group( function() {
 
+    Route::get('/', function () {
+        return response()->json([
+            'message' => 'Welcome to my Restaurant Reservation System API',
+            'version' => '1.0.0',
+        ]);
+    });
+
     // Customers
     Route::apiResource('customers', CustomerController::class)
             ->middleware('permission:view customers|create customers|edit customers|delete customers');
