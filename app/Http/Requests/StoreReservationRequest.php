@@ -29,22 +29,16 @@ class StoreReservationRequest extends FormRequest {
 
     protected function prepareForValidation() {
         $this->merge([
-            'reservation_date' => $this->input('reservationDate'),
-            'reservation_time' => $this->input('reservationTime'),
-            'number_of_peoples' => $this->input('numberOfPeoples'),
             'customer_id' => $this->input('customer'),
-            'user_id' => $this->input('owner'),
+            'user_id' => $this->input('user'),
             'table_ids' => $this->input('tables'),
         ]);
     }
 
     public function attributes(): array {
         return [
-            'reservation_date' => 'reservationDate',
-            'reservation_time' => 'reservationTime',
-            'number_of_peoples' => 'numberOfPeoples',
             'customer_id' => 'customer',
-            'user_id' => 'owner',
+            'user_id' => 'user',
             'table_ids' => 'tables',
         ];
     }

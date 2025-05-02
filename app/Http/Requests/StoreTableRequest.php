@@ -21,20 +21,6 @@ class StoreTableRequest extends FormRequest {
         ];
     }
 
-    protected function prepareForValidation() {
-        if ($this->has('isAvailable')) {
-            $this->merge([
-                'is_available' => $this->input('isAvailable')
-            ]);
-        }
-    }
-
-    public function attributes(): array {
-        return [
-            'is_available' => 'isAvailable',
-        ];
-    }
-
     public function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json([
             'success' => false,

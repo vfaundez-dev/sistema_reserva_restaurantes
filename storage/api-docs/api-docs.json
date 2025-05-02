@@ -1577,11 +1577,11 @@
                         "type": "string",
                         "example": "Family dinner"
                     },
-                    "customer_id": {
+                    "customer": {
                         "type": "integer",
                         "example": 3
                     },
-                    "user_id": {
+                    "user": {
                         "type": "integer",
                         "example": 2
                     }
@@ -2460,7 +2460,7 @@
                                     "type": "string",
                                     "example": "+123456789"
                                 },
-                                "registrationDate": {
+                                "registration_date": {
                                     "type": "string",
                                     "format": "date-time",
                                     "example": "2024-01-01T12:00:00Z"
@@ -2483,8 +2483,8 @@
                                 "number_of_people",
                                 "status",
                                 "notes",
-                                "customer_id",
-                                "user_id",
+                                "customer",
+                                "user",
                                 "tables"
                             ],
                             "properties": {
@@ -2510,11 +2510,11 @@
                                     "type": "string",
                                     "example": "Family dinner"
                                 },
-                                "customer_id": {
+                                "customer": {
                                     "type": "integer",
                                     "example": 3
                                 },
-                                "user_id": {
+                                "user": {
                                     "type": "integer",
                                     "example": 2
                                 },
@@ -2619,7 +2619,7 @@
                                     "type": "string",
                                     "example": "+123456789"
                                 },
-                                "registrationDate": {
+                                "registration_date": {
                                     "type": "string",
                                     "format": "date-time",
                                     "example": "2024-01-01T12:00:00Z"
@@ -2642,8 +2642,8 @@
                                 "number_of_people",
                                 "status",
                                 "notes",
-                                "customer_id",
-                                "user_id",
+                                "customer",
+                                "user",
                                 "tables"
                             ],
                             "properties": {
@@ -2669,11 +2669,11 @@
                                     "type": "string",
                                     "example": "Family dinner"
                                 },
-                                "customer_id": {
+                                "customer": {
                                     "type": "integer",
                                     "example": 3
                                 },
-                                "user_id": {
+                                "user": {
                                     "type": "integer",
                                     "example": 2
                                 },

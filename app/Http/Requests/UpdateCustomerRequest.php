@@ -19,30 +19,16 @@ class UpdateCustomerRequest extends FormRequest {
                 'name' => ['required', 'string', 'min:3'],
                 'email' => ['required', 'email', Rule::unique(table: 'customers')->ignore( $this->route('customer') )],
                 'phone' => ['required', 'string', 'min:8'],
-                'registrationDate' => ['required', 'date']
+                'registration_date' => ['sometimes', 'required', 'date']
             ];
         } else {
             return [
                 'name' => ['sometimes', 'required', 'string', 'min:3'],
                 'email' => ['sometimes', 'required', 'email', Rule::unique(table: 'customers')->ignore( $this->route('customer') )],
                 'phone' => ['sometimes', 'required', 'string', 'min:8'],
-                'registrationDate' => ['sometimes', 'required', 'date']
+                'registration_date' => ['sometimes', 'required', 'date']
             ]; 
         }
-    }
-
-    protected function prepareForValidation() {
-        if ($this->has('registrationDate')) {
-            $this->merge([
-                'registration_date' => $this->registrationDate
-            ]);
-        }
-    }
-
-    public function attributes(): array {
-        return [
-            'registration_date' => 'registrationDate'
-        ];
     }
 
     public function failedValidation(Validator $validator) {

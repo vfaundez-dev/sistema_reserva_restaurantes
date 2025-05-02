@@ -86,7 +86,7 @@ trait Filterable {
     public function applyPagination(Builder $query): LengthAwarePaginator {
         $request = app(Request::class);
         
-        $perPage = $request->input('per_page', 15);
+        $perPage = $request->input('per_page', 25);
         $page = $request->input('page', 1);
         
         return $query->paginate($perPage, ['*'], 'page', $page);

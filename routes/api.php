@@ -8,7 +8,7 @@ use App\Http\Controllers\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->middleware('api')->group( function () {
+Route::prefix('v1')->middleware('api')->group( function() {
 
     // Customers
     Route::apiResource('customers', CustomerController::class)
@@ -40,8 +40,8 @@ Route::prefix('v1')->middleware('api')->group( function () {
 
     Route::prefix('auth')->group( function() {
         Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-        Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
         Route::post('register', [AuthController::class, 'register'])->name('auth.register');
+        Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
         Route::post('refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
         Route::post('me', [AuthController::class, 'me'])->name('auth.me');
     });

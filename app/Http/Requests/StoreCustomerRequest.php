@@ -21,20 +21,6 @@ class StoreCustomerRequest extends FormRequest {
         ];
     }
 
-    protected function prepareForValidation() {
-        if ($this->has('registrationDate')) {
-            $this->merge([
-                'registration_date' => $this->input('registrationDate')
-            ]);
-        }
-    }
-
-    public function attributes(): array {
-        return [
-            'registration_date' => 'registrationDate'
-        ];
-    }
-
     public function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json([
             'success' => false,

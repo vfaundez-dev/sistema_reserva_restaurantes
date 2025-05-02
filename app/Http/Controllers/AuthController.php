@@ -168,7 +168,7 @@ class AuthController extends Controller {
         try {
 
             $user = auth()->userOrFail();
-            $refreshToken = auth()->refresh();
+            $refreshToken = auth()->refresh(true, true);
             return ApiResponse::success( $this->getResponseToken($refreshToken), 'Token refreshed successfully', Response::HTTP_OK );
 
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
@@ -200,6 +200,8 @@ class AuthController extends Controller {
     */
     public function logout() {
         try {
+
+            if ( !$user = Auth::user() ) return ApiResponse::error(null, 'Unauthenticated', Response::HTTP_UNAUTHORIZED);
 
             Auth::logout();
             return ApiResponse::success(null, 'Successfully logged out', Response::HTTP_OK);

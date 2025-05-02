@@ -91,7 +91,9 @@ class TableRepository implements TableRepositoryInterface {
     }
 
     public function getAvailableTables(): TableCollection {
-        return new TableCollection( Table::where('is_available', true)->get() );
+        $query = $this->model->newQuery();
+        $query = $this->applyFilters($query->where('is_available', true));
+        return new TableCollection( $this->applyPagination($query) );
     }
 
     public function hasActiveReservation(Table $table, $excludeReservationId = null): bool {

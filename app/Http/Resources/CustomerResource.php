@@ -13,7 +13,7 @@ class CustomerResource extends JsonResource {
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'registrationDate' => $this->registration_date->format('Y-m-d H:i:s'),
+            'registration_date' => $this->registration_date->format('Y-m-d H:i:s'),
             'reservations' => ReservationResource::collection( $this->whenLoaded('reservations') )
         ];
     }

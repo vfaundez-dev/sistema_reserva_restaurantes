@@ -27,12 +27,10 @@ class UpdateReservationRequest extends FormRequest {
     }
 
     protected function prepareForValidation() {
+
         collect([
-            'reservationDate' => 'reservation_date',
-            'reservationTime' => 'reservation_time',
-            'numberOfPeoples' => 'number_of_peoples',
             'customer' => 'customer_id',
-            'owner' => 'user_id',
+            'user' => 'user_id',
             'tables' => 'table_ids',
         ])->each(function ($attribute, $key) {
             if ($this->has($key)) {
@@ -43,11 +41,8 @@ class UpdateReservationRequest extends FormRequest {
 
     public function attributes(): array {
         return [
-            'reservation_date' => 'reservationDate',
-            'reservation_time' => 'reservationTime',
-            'number_of_peoples' => 'numberOfPeoples',
             'customer_id' => 'customer',
-            'user_id' => 'owner',
+            'user_id' => 'user',
             'table_ids' => 'tables',
         ];
     }

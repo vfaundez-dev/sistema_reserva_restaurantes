@@ -12,8 +12,8 @@ namespace App\Swagger\Schemas;
   *     @OA\Property(property="number_of_people", type="integer", example=4),
   *     @OA\Property(property="status", type="string", example="confirmed"),
   *     @OA\Property(property="notes", type="string", example="Family dinner"),
-  *     @OA\Property(property="customer_id", type="integer", example=3),
-  *     @OA\Property(property="user_id", type="integer", example=2)
+  *     @OA\Property(property="customer", type="integer", example=3),
+  *     @OA\Property(property="user", type="integer", example=2)
   * ),
 */
 class ReservationSchema {}

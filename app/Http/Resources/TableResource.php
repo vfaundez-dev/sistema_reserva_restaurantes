@@ -10,7 +10,7 @@ class TableResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'id' => $this->id,
-            'isAvailable' => $this->is_available,
+            'is_available' => $this->is_available,
             'capacity' => $this->capacity,
             'location' => $this->location,
             'reservations' => ReservationResource::collection( $this->whenLoaded('reservations') ),
