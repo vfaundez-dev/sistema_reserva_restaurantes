@@ -53,8 +53,11 @@ class AuthController extends Controller {
     */
     public function login(Request $request) {
         try {
-            
-            $credentials = $request->only('email', 'password');
+
+            $credentials = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required|string|min:8'
+            ]);
 
             if (!$token = JWTAuth::attempt($credentials))
                 return ApiResponse::error(null, 'Invalid credentials', Response::HTTP_UNAUTHORIZED);
